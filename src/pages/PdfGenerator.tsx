@@ -2,7 +2,7 @@ import { HStack, Separator, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { PDFViewer } from "@react-pdf/renderer";
 import { defaultAttractions } from "@/mocks/attractions";
-import { AttractionsList } from "@/components/shared/AttractionsList";
+import { AttractionEditor } from "@/components/shared/AttractionsEditor";
 import { DefaultPdfDocument } from "@/components/shared/DefaultPdfDocument";
 
 type City = {
@@ -27,7 +27,7 @@ function PdfGenerator() {
   return (
     <VStack height="vh" justifyContent="center">
       <HStack gap={10}>
-        <AttractionsList setAttraction={setSelectedAttraction} />
+        <AttractionEditor setAttraction={setSelectedAttraction} />
         <Separator orientation="vertical" />
         <VStack>
           <PDFViewer height={700} width={800}>

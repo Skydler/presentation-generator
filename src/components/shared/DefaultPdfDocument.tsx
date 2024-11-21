@@ -1,4 +1,4 @@
-import { Attraction } from "@/App";
+import { Attraction } from "@/pages/PdfGenerator";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 
 type DefaultPdfDocumentProps = { attraction: Attraction };

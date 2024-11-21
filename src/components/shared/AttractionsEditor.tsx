@@ -1,12 +1,10 @@
-import { Attraction } from "@/App";
 import { defaultAttractions } from "@/mocks/attractions";
 import { VStack } from "@chakra-ui/react";
 import { RadioCardItem, RadioCardLabel, RadioCardRoot } from "../ui/radio-card";
+import { Attraction } from "@/pages/PdfGenerator";
 
-type AttractionsListProps = {
-  setAttraction: (attraction: Attraction) => void;
-};
-export function AttractionsList({ setAttraction }: AttractionsListProps) {
+type AttractionsListProps = { setAttraction: (attraction: Attraction) => void };
+export function AttractionEditor({ setAttraction }: AttractionsListProps) {
   const attractions = defaultAttractions;
 
   return (
