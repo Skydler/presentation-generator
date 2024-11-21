@@ -7,9 +7,8 @@ export function DefaultPdfDocument({ attraction }: DefaultPdfDocumentProps) {
     <Document>
       <Page orientation="landscape">
         <View>
-          <Text>{attraction.name}</Text>
+          <Text>{attraction.title}</Text>
           <Text>{attraction.description}</Text>
-          <Text>{attraction.location}</Text>
         </View>
       </Page>
     </Document>

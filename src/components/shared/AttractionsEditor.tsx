@@ -1,28 +1,48 @@
-import { defaultAttractions } from "@/mocks/attractions";
-import { VStack } from "@chakra-ui/react";
-import { RadioCardItem, RadioCardLabel, RadioCardRoot } from "../ui/radio-card";
+import { Fieldset, Input, VStack } from "@chakra-ui/react";
 import { Attraction } from "@/pages/PdfGenerator";
+import { Field } from "../ui/field";
+import { Button } from "../ui/button";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-type AttractionsListProps = { setAttraction: (attraction: Attraction) => void };
-export function AttractionEditor({ setAttraction }: AttractionsListProps) {
-  const attractions = defaultAttractions;
+type AttractionsListProps = { updatePage: (attraction: Attraction) => void };
+export function AttractionEditor({ updatePage }: AttractionsListProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Attraction>();
+  const onSubmit: SubmitHandler<Attraction> = (data) => updatePage(data);
 
   return (
     <VStack gap={10}>
-      <RadioCardRoot gap={2} defaultValue={attractions[0].name}>
-        <RadioCardLabel fontSize="2xl">Attractions</RadioCardLabel>
-        <VStack align="stretch">
-          {attractions.map((attraction) => (
-            <RadioCardItem
-              key={attraction.name}
-              value={attraction.name}
-              description={attraction.description}
-              label={attraction.name}
-              onClick={() => setAttraction(attraction)}
-            />
-          ))}
-        </VStack>
-      </RadioCardRoot>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Fieldset.Root>
+          <Fieldset.Legend>Edit attraction</Fieldset.Legend>
+          <Fieldset.Content>
+            <Field
+              label="Title"
+              invalid={!!errors.title}
+              errorText={errors.title?.message}
+            >
+              <Input
+                {...register("title", { required: "Title is required" })}
+              />
+            </Field>
+            <Field
+              label="Description"
+              invalid={!!errors.description}
+              errorText={errors.description?.message}
+            >
+              <Input
+                {...register("description", {
+                  required: "Description is required",
+                })}
+              />
+            </Field>
+          </Fieldset.Content>
+          <Button type="submit">Update page</Button>
+        </Fieldset.Root>
+      </form>
     </VStack>
   );
 }
