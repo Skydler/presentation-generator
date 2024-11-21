@@ -11,7 +11,7 @@ export function AttractionsList({ setAttraction }: AttractionsListProps) {
 
   return (
     <VStack gap={10}>
-      <RadioCardRoot gap={2}>
+      <RadioCardRoot gap={2} defaultValue={attractions[0].name}>
         <RadioCardLabel fontSize="2xl">Attractions</RadioCardLabel>
         <VStack align="stretch">
           {attractions.map((attraction) => (
