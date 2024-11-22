@@ -40,7 +40,7 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
               />
             </Field>
           </Fieldset.Content>
-          <Button type="submit">Update page</Button>
+          <Button type="submit">Add page</Button>
         </Fieldset.Root>
       </form>
     </VStack>
