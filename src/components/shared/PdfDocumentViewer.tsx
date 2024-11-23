@@ -3,6 +3,8 @@ import { Image, PDFViewer, StyleSheet } from "@react-pdf/renderer";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import BackgroundImage from "@/assets/background.png";
 import LogoPluralis from "@/assets/logo_pluralis.png";
+import Intro from "@/assets/intro.png";
+import IntroPresentation from "@/assets/intro_presentation.png";
 
 export type ContentPage = {
   id: number;
@@ -51,6 +53,13 @@ export function PdfDocumentViewer({ pages }: PdfDocumentViewerProps) {
   return (
     <PDFViewer height={700} width={700}>
       <Document title="Pluralis PDF" pageLayout="singlePage">
+        <Page orientation="landscape" style={styles.page}>
+          <Image src={Intro} style={styles.background} />
+        </Page>
+        <Page orientation="landscape" style={styles.page}>
+          <Image src={IntroPresentation} style={styles.background} />
+        </Page>
+
         {pages.map((page) => (
           <Page
             key={page.id}
