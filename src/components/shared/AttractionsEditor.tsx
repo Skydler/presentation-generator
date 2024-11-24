@@ -1,4 +1,4 @@
-import { Fieldset, Input, VStack } from "@chakra-ui/react";
+import { Fieldset, Input, Textarea, VStack } from "@chakra-ui/react";
 import { Attraction } from "@/pages/PdfGenerator";
 import { Field } from "../ui/field";
 import { Button } from "../ui/button";
@@ -33,14 +33,14 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
               invalid={!!errors.description}
               errorText={errors.description?.message}
             >
-              <Input
+              <Textarea
                 {...register("description", {
                   required: "Description is required",
                 })}
               />
             </Field>
           </Fieldset.Content>
-          <Button type="submit">Add page</Button>
+          <Button type="submit">Update</Button>
         </Fieldset.Root>
       </form>
     </VStack>

@@ -5,9 +5,9 @@ import BackgroundImage from "@/assets/background.png";
 import LogoPluralis from "@/assets/logo_pluralis.png";
 import Intro from "@/assets/intro.png";
 import IntroPresentation from "@/assets/intro_presentation.png";
+import { useEffect } from "react";
 
 export type ContentPage = {
-  id: number;
   attraction: Attraction;
 };
 
@@ -48,8 +48,14 @@ const styles = StyleSheet.create({
   },
 });
 
-type PdfDocumentViewerProps = { pages: ContentPage[] };
-export function PdfDocumentViewer({ pages }: PdfDocumentViewerProps) {
+type PdfDocumentViewerProps = {
+  pages: ContentPage[];
+  currentProdIndex: number;
+};
+export function PdfDocumentViewer({
+  pages,
+  currentProdIndex,
+}: PdfDocumentViewerProps) {
   return (
     <PDFViewer height={700} width={700}>
       <Document title="Pluralis PDF" pageLayout="singlePage">
@@ -60,12 +66,17 @@ export function PdfDocumentViewer({ pages }: PdfDocumentViewerProps) {
           <Image src={IntroPresentation} style={styles.background} />
         </Page>
 
-        {pages.map((page) => (
+        {pages.map((page, index) => (
           <Page
-            key={page.id}
-            id={String(page.id)}
+            key={index}
+            id={index.toString()}
             orientation="landscape"
             style={styles.page}
+            //ref={(ref) => {
+            //  if (index === currentProdIndex) {
+            //    ref?.scrollIntoView();
+            //  }
+            //}}
           >
             <View style={styles.content}>
               <Text style={styles.title}>{page.attraction.title}</Text>
