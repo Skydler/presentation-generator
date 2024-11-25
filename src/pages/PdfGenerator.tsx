@@ -22,6 +22,10 @@ const emptyProduct: ContentPage = {
 function PdfGenerator() {
   const [products, setProducts] = useState<ContentPage[]>([emptyProduct]);
   const [currentProd, setCurrentProd] = useState(1);
+  const currentProdIndex = currentProd - 1;
+  if (currentProdIndex < 0) {
+    throw new Error("Invalid current product index");
+  }
 
   return (
     <VStack height="vh" justifyContent="center">
@@ -31,25 +35,23 @@ function PdfGenerator() {
           currentProdIndex={currentProd}
           setCurrentProd={setCurrentProd}
           handleRemovePage={() => {
-            setProducts((current) => {
-              const newProducts = [...current];
-              newProducts.splice(currentProd, 1);
-              return newProducts;
-            });
-            setCurrentProd((current) => current - 1);
+            const newProducts = products.filter(
+              (_, index) => index !== currentProdIndex,
+            );
+            setProducts(newProducts);
+            setCurrentProd(currentProd - 1);
           }}
           handleNewPage={() => {
-            setProducts((current) => [...current, emptyProduct]);
-            setCurrentProd((current) => current + 1);
+            const newProducts = [...products, emptyProduct];
+            setProducts(newProducts);
+            setCurrentProd(currentProd + 1);
           }}
         >
           <AttractionEditor
             updatePage={(data: Attraction) => {
-              setProducts((current) => {
-                const newProducts = [...current];
-                newProducts[currentProd - 1] = { attraction: data };
-                return newProducts;
-              });
+              const newProducts = [...products];
+              newProducts[currentProdIndex] = { attraction: data };
+              setProducts(newProducts);
             }}
           />
         </PageController>
