@@ -10,37 +10,24 @@ export type ContentPage = {
   attraction: Attraction;
 };
 
-type PdfDocumentViewerProps = {
-  pages: ContentPage[];
-  currentProdIndex: number;
-};
-export function PdfDocumentViewer({
-  pages,
-  currentProdIndex,
-}: PdfDocumentViewerProps) {
+type PdfDocumentViewerProps = { products: ContentPage[] };
+export function PdfDocumentViewer({ products }: PdfDocumentViewerProps) {
   return (
     <PDFViewer height={700} width={700}>
       <Document title="Pluralis PDF" pageLayout="singlePage">
-        <Page orientation="landscape" style={styles.page}>
+        <Page key="intro-1" orientation="landscape" style={styles.page}>
           <Image src={Intro} style={styles.background} />
         </Page>
-        <Page orientation="landscape" style={styles.page}>
+        <Page key="intro-2" orientation="landscape" style={styles.page}>
           <Image src={IntroPresentation} style={styles.background} />
         </Page>
-
-        {pages.map((page, index) => (
+        {products.map((page, index) => (
           <Page
-            key={index}
-            id={index.toString()}
+            key={`product-${index}`}
             orientation="landscape"
             style={styles.page}
-            //ref={(ref) => {
-            //  if (index === currentProdIndex) {
-            //    ref?.scrollIntoView();
-            //  }
-            //}}
           >
-            <View style={styles.content}>
+            <View style={styles.content} data-page-number={index}>
               <Text style={styles.title}>{page.attraction.title}</Text>
               <Text style={styles.description}>
                 {page.attraction.description}
