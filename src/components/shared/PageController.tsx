@@ -12,16 +12,16 @@ import { Button } from "../ui/button";
 type PageControllerProps = {
   pages: ContentPage[];
   children: ReactNode;
-  currentProdIndex: number;
-  setCurrentProd: (index: number) => void;
+  currentPageIndex: number;
+  handleSelectPage: (index: number) => void;
   handleRemovePage: () => void;
   handleNewPage: () => void;
 };
 export function PageController({
   pages,
   children,
-  currentProdIndex,
-  setCurrentProd,
+  currentPageIndex,
+  handleSelectPage,
   handleNewPage,
   handleRemovePage,
 }: PageControllerProps) {
@@ -29,10 +29,10 @@ export function PageController({
     <VStack gap={10}>
       <PaginationRoot
         count={pages.length}
-        page={currentProdIndex}
+        page={currentPageIndex}
         pageSize={1}
         defaultPage={1}
-        onPageChange={(detail) => setCurrentProd(detail.page)}
+        onPageChange={(detail) => handleSelectPage(detail.page)}
       >
         <HStack gap={4}>
           <PaginationPrevTrigger />

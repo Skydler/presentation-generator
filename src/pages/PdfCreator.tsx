@@ -1,11 +1,12 @@
 import { HStack, Separator, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { AttractionEditor } from "@/components/shared/AttractionsEditor";
+import { PdfDocumentViewer } from "@/components/shared/PdfDocumentViewer";
+import { PageController } from "@/components/shared/PageController";
 import {
   ContentPage,
-  PdfDocumentViewer,
-} from "@/components/shared/PdfDocumentViewer";
-import { PageController } from "@/components/shared/PageController";
+  PluralisDocument,
+} from "@/components/shared/PluralisDocument";
 
 export type Attraction = {
   title: string;
@@ -19,7 +20,7 @@ const emptyProduct: ContentPage = {
   },
 };
 
-function PluralisPDFCreator() {
+function PdfCreator() {
   const [products, setProducts] = useState<ContentPage[]>([emptyProduct]);
   const [currentProd, setCurrentProd] = useState(1);
   const currentProdIndex = currentProd - 1;
@@ -32,8 +33,8 @@ function PluralisPDFCreator() {
       <HStack gap={10}>
         <PageController
           pages={products}
-          currentProdIndex={currentProd}
-          setCurrentProd={setCurrentProd}
+          currentPageIndex={currentProd}
+          handleSelectPage={setCurrentProd}
           handleRemovePage={() => {
             if (products.length > 1) {
               const newProducts = products.filter(
@@ -58,10 +59,12 @@ function PluralisPDFCreator() {
           />
         </PageController>
         <Separator orientation="vertical" />
-        <PdfDocumentViewer products={products} />
+        <PdfDocumentViewer pageNumber={currentProd}>
+          <PluralisDocument products={products} />
+        </PdfDocumentViewer>
       </HStack>
     </VStack>
   );
 }
 
-export default PluralisPDFCreator;
+export default PdfCreator;
