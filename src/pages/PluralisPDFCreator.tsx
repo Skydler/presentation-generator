@@ -19,7 +19,7 @@ const emptyProduct: ContentPage = {
   },
 };
 
-function PdfGenerator() {
+function PluralisPDFCreator() {
   const [products, setProducts] = useState<ContentPage[]>([emptyProduct]);
   const [currentProd, setCurrentProd] = useState(1);
   const currentProdIndex = currentProd - 1;
@@ -64,4 +64,4 @@ function PdfGenerator() {
   );
 }
 
-export default PdfGenerator;
+export default PluralisPDFCreator;

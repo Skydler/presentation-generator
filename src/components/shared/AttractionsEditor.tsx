@@ -1,5 +1,5 @@
 import { Fieldset, Input, Textarea, VStack } from "@chakra-ui/react";
-import { Attraction } from "@/pages/PdfGenerator";
+import { Attraction } from "@/pages/PluralisPDFCreator";
 import { Field } from "../ui/field";
 import { Button } from "../ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";

@@ -1,10 +1,21 @@
-import { Attraction } from "@/pages/PdfGenerator";
-import { Image, PDFViewer, StyleSheet } from "@react-pdf/renderer";
+import { Attraction } from "@/pages/PluralisPDFCreator";
+import { Image, StyleSheet, usePDF } from "@react-pdf/renderer";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import BackgroundImage from "@/assets/background.png";
 import LogoPluralis from "@/assets/logo_pluralis.png";
 import Intro from "@/assets/intro.png";
 import IntroPresentation from "@/assets/intro_presentation.png";
+import { Document as ViewerDocument, Page as ViewerPage } from "react-pdf";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
+import { pdfjs } from "react-pdf";
+import { VStack } from "@chakra-ui/react";
+import { useEffect } from "react";
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url,
+).toString();
 
 export type ContentPage = {
   attraction: Attraction;
@@ -12,33 +23,53 @@ export type ContentPage = {
 
 type PdfDocumentViewerProps = { products: ContentPage[] };
 export function PdfDocumentViewer({ products }: PdfDocumentViewerProps) {
+  const [instance, update] = usePDF({
+    document: <PluralisDocument products={products} />,
+  });
+
+  useEffect(() => {
+    update(<PluralisDocument products={products} />);
+  }, [products, update]);
+
   return (
-    <PDFViewer height="100%" width={700}>
-      <Document title="Pluralis PDF" pageLayout="singlePage">
-        <Page key="intro-1" orientation="landscape" style={styles.page}>
-          <Image src={Intro} style={styles.background} />
-        </Page>
-        <Page key="intro-2" orientation="landscape" style={styles.page}>
-          <Image src={IntroPresentation} style={styles.background} />
-        </Page>
-        {products.map((page, index) => (
-          <Page
-            key={`product-${index}`}
-            orientation="landscape"
-            style={styles.page}
-          >
-            <View style={styles.content} data-page-number={index}>
-              <Text style={styles.title}>{page.attraction.title}</Text>
-              <Text style={styles.description}>
-                {page.attraction.description}
-              </Text>
-              <Image src={LogoPluralis} style={styles.logo} />
-            </View>
-            <Image src={BackgroundImage} style={styles.background} />
-          </Page>
+    <VStack height={700} width={700} m={5} p={5}>
+      <ViewerDocument file={instance.url}>
+        <ViewerPage pageNumber={1} />
+        <ViewerPage pageNumber={2} />
+        {products.map((_, index) => (
+          <ViewerPage key={index} pageNumber={index + 3} />
         ))}
-      </Document>
-    </PDFViewer>
+      </ViewerDocument>
+    </VStack>
+  );
+}
+
+function PluralisDocument({ products }: PdfDocumentViewerProps) {
+  return (
+    <Document title="Pluralis PDF" pageLayout="singlePage">
+      <Page key="intro-1" orientation="landscape" style={styles.page}>
+        <Image src={Intro} style={styles.background} />
+      </Page>
+      <Page key="intro-2" orientation="landscape" style={styles.page}>
+        <Image src={IntroPresentation} style={styles.background} />
+      </Page>
+      {products.map((page, index) => (
+        <Page
+          key={`product-${index}`}
+          orientation="landscape"
+          style={styles.page}
+        >
+          <View style={styles.content} data-page-number={index}>
+            <Text style={styles.title}>{page.attraction.title}</Text>
+            <Text style={styles.description}>
+              {page.attraction.description}
+            </Text>
+            <Image src={LogoPluralis} style={styles.logo} />
+          </View>
+          <Image src={BackgroundImage} style={styles.background} />
+        </Page>
+      ))}
+    </Document>
   );
 }
 
