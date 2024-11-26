@@ -35,11 +35,13 @@ function PdfGenerator() {
           currentProdIndex={currentProd}
           setCurrentProd={setCurrentProd}
           handleRemovePage={() => {
-            const newProducts = products.filter(
-              (_, index) => index !== currentProdIndex,
-            );
-            setProducts(newProducts);
-            setCurrentProd(currentProd - 1);
+            if (products.length > 1) {
+              const newProducts = products.filter(
+                (_, index) => index !== currentProdIndex,
+              );
+              setProducts(newProducts);
+              setCurrentProd(currentProd - 1);
+            }
           }}
           handleNewPage={() => {
             const newProducts = [...products, emptyProduct];
@@ -56,7 +58,7 @@ function PdfGenerator() {
           />
         </PageController>
         <Separator orientation="vertical" />
-        <PdfDocumentViewer pages={products} currentProdIndex={currentProd} />
+        <PdfDocumentViewer products={products} />
       </HStack>
     </VStack>
   );
