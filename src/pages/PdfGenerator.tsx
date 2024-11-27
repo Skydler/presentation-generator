@@ -6,6 +6,7 @@ import {
   PdfDocumentViewer,
 } from "@/components/shared/PdfDocumentViewer";
 import { PageController } from "@/components/shared/PageController";
+import { PluralistFileBrowser } from "@/components/shared/PluralisFileBrowser";
 
 export type Attraction = {
   title: string;
@@ -28,7 +29,10 @@ function PdfGenerator() {
   }
 
   return (
-    <VStack height="vh" justifyContent="center">
+    <VStack height="vh" justifyContent="center" gap={50}>
+      <HStack gap={10}>
+        <PluralistFileBrowser />
+      </HStack>
       <HStack gap={10}>
         <PageController
           pages={products}
