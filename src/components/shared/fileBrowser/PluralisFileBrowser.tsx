@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { useBrowserVFS } from "./browserVFS";
 import { useFileActionHandler } from "./hooks/fileActions";
 import { useFiles, useFolderChain } from "./hooks/fileNavigation";
+import { CreateFile } from "./customActions";
 
 export function PluralisFileBrowser() {
   const {
@@ -14,6 +15,7 @@ export function PluralisFileBrowser() {
     deleteFiles,
     moveFiles,
     createFolder,
+    createFile,
   } = useBrowserVFS();
 
   const files = useFiles(fileMap, currentFolderId);
@@ -23,12 +25,17 @@ export function PluralisFileBrowser() {
     deleteFiles,
     moveFiles,
     createFolder,
+    createFile,
   );
 
   const fileActions = useMemo(
-    () => [ChonkyActions.CreateFolder, ChonkyActions.DeleteFiles],
+    () => [CreateFile, ChonkyActions.CreateFolder, ChonkyActions.DeleteFiles],
     [],
   );
+  const disabledActions = [
+    ChonkyActions.ToggleHiddenFiles.id,
+    ChonkyActions.OpenSelection.id,
+  ];
 
   return (
     <Container width={1000} height={450}>
@@ -40,6 +47,7 @@ export function PluralisFileBrowser() {
         /* eslint-disable @typescript-eslint/no-explicit-any */
         iconComponent={ChonkyIconFA as any}
         defaultFileViewActionId={ChonkyActions.EnableListView.id}
+        disableDefaultFileActions={disabledActions}
       />
     </Container>
   );

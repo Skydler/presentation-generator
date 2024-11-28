@@ -1,13 +1,19 @@
 import {
   ChonkyActions,
-  ChonkyFileActionData,
+  ChonkyActionUnion,
   FileData,
+  GenericFileActionHandler,
 } from "@aperturerobotics/chonky";
 import { CustomFileData } from "../fileTypes";
 import { useCallback } from "react";
 import { toaster } from "@/components/ui/toaster";
 import { useFormContext } from "react-hook-form";
 import { Attraction } from "@/pages/PdfGenerator";
+import { CreateFile } from "../customActions";
+
+type CustomHandler = GenericFileActionHandler<
+  ChonkyActionUnion | typeof CreateFile
+>;
 
 export const useFileActionHandler = (
   setCurrentFolderId: (folderId: string) => void,
@@ -18,10 +24,11 @@ export const useFileActionHandler = (
     destination: FileData,
   ) => void,
   createFolder: (folderName: string) => void,
+  createFile: (file: { filename: string; attraction: Attraction }) => void,
 ) => {
   const { setValue } = useFormContext<Attraction>();
-  return useCallback(
-    (data: ChonkyFileActionData) => {
+  return useCallback<CustomHandler>(
+    (data) => {
       if (data.id === ChonkyActions.OpenFiles.id) {
         const { targetFile, files } = data.payload;
         const fileToOpen: CustomFileData = targetFile ?? files[0];
@@ -52,8 +59,23 @@ export const useFileActionHandler = (
       } else if (data.id === ChonkyActions.CreateFolder.id) {
         const folderName = prompt("Provide the name for your new folder:");
         if (folderName) createFolder(folderName);
+      } else if (data.id === CreateFile.id) {
+        const filename = prompt("Provide the name for your new file:");
+        if (filename) {
+          createFile({
+            filename,
+            attraction: { title: "Hola", description: "Lola" },
+          });
+        }
       }
     },
-    [createFolder, deleteFiles, moveFiles, setCurrentFolderId, setValue],
+    [
+      createFolder,
+      deleteFiles,
+      moveFiles,
+      setCurrentFolderId,
+      setValue,
+      createFile,
+    ],
   );
 };
