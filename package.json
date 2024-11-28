@@ -10,11 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aperturerobotics/chonky": "^0.3.1",
+    "@aperturerobotics/chonky-icon-fontawesome": "^0.3.1",
     "@chakra-ui/react": "^3.1.2",
     "@emotion/react": "^11.13.5",
     "@react-pdf/renderer": "^4.1.5",
-    "chonky": "^2.3.2",
-    "chonky-icon-fontawesome": "^2.3.2",
     "next-themes": "^0.4.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

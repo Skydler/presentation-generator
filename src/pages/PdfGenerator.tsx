@@ -6,7 +6,7 @@ import {
   PdfDocumentViewer,
 } from "@/components/shared/PdfDocumentViewer";
 import { PageController } from "@/components/shared/PageController";
-import { PluralistFileBrowser } from "@/components/shared/PluralisFileBrowser";
+import { PluralistFileBrowser } from "@/components/shared/fileBrowser/PluralisFileBrowser";
 
 export type Attraction = {
   title: string;
@@ -29,40 +29,42 @@ function PdfGenerator() {
   }
 
   return (
-    <VStack height="vh" justifyContent="center" gap={50}>
-      <HStack gap={10}>
-        <PluralistFileBrowser />
-      </HStack>
-      <HStack gap={10}>
-        <PageController
-          pages={products}
-          currentProdIndex={currentProd}
-          setCurrentProd={setCurrentProd}
-          handleRemovePage={() => {
-            if (products.length > 1) {
-              const newProducts = products.filter(
-                (_, index) => index !== currentProdIndex,
-              );
-              setProducts(newProducts);
-              setCurrentProd(currentProd - 1);
-            }
-          }}
-          handleNewPage={() => {
-            const newProducts = [...products, emptyProduct];
-            setProducts(newProducts);
-            setCurrentProd(currentProd + 1);
-          }}
-        >
-          <AttractionEditor
-            updatePage={(data: Attraction) => {
-              const newProducts = [...products];
-              newProducts[currentProdIndex] = { attraction: data };
-              setProducts(newProducts);
+    <VStack>
+      <VStack height="vh" justifyContent="center" gap={50}>
+        <HStack gap={10}>
+          <PageController
+            pages={products}
+            currentProdIndex={currentProd}
+            setCurrentProd={setCurrentProd}
+            handleRemovePage={() => {
+              if (products.length > 1) {
+                const newProducts = products.filter(
+                  (_, index) => index !== currentProdIndex,
+                );
+                setProducts(newProducts);
+                setCurrentProd(currentProd - 1);
+              }
             }}
-          />
-        </PageController>
-        <Separator orientation="vertical" />
-        <PdfDocumentViewer products={products} />
+            handleNewPage={() => {
+              const newProducts = [...products, emptyProduct];
+              setProducts(newProducts);
+              setCurrentProd(currentProd + 1);
+            }}
+          >
+            <AttractionEditor
+              updatePage={(data: Attraction) => {
+                const newProducts = [...products];
+                newProducts[currentProdIndex] = { attraction: data };
+                setProducts(newProducts);
+              }}
+            />
+          </PageController>
+          <Separator orientation="vertical" />
+          <PdfDocumentViewer products={products} />
+        </HStack>
+      </VStack>
+      <HStack gap={10} m={10}>
+        <PluralistFileBrowser />
       </HStack>
     </VStack>
   );
