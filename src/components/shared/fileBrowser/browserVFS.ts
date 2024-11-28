@@ -6,6 +6,7 @@ import defaultFiles from "./default_files.json";
 import { useCallbackRef } from "@chakra-ui/react";
 import { Attraction } from "@/pages/PdfGenerator";
 import { NewFileForm } from "./CreateFileDialog";
+import { NewFolderForm } from "./CreateFolderDialog";
 
 const prepareCustomFileMap = () => {
   const baseFileMap = defaultFiles.fileMap as unknown as CustomFileMap;
@@ -102,7 +103,7 @@ export const useBrowserVFS = () => {
 
   // TODO: Should replace with UUID generator or similar
   const idCounter = useRef(0);
-  const createFolder = useCallback((folderName: string) => {
+  const createFolder = useCallback((data: NewFolderForm) => {
     setFileMap((currentFileMap) => {
       const newFileMap = { ...currentFileMap };
 
@@ -110,7 +111,7 @@ export const useBrowserVFS = () => {
       const newFolderId = `new-folder-${idCounter.current++}`;
       newFileMap[newFolderId] = {
         id: newFolderId,
-        name: folderName,
+        name: data.folderName,
         isDir: true,
         modDate: new Date(),
         parentId: currentFolderIdRef.current,

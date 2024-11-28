@@ -1,12 +1,24 @@
 import { Container } from "@chakra-ui/react";
 import { FullFileBrowser, ChonkyActions } from "@aperturerobotics/chonky";
 import { ChonkyIconFA } from "@aperturerobotics/chonky-icon-fontawesome";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useBrowserVFS } from "./browserVFS";
 import { useFileActionHandler } from "./hooks/fileActions";
 import { useFiles, useFolderChain } from "./hooks/fileNavigation";
 import { CreateFile } from "./customActions";
 import { CreateFileDialog } from "./CreateFileDialog";
+import { CreateFolderDialog } from "./CreateFolderDialog";
+
+const disabledActions = [
+  ChonkyActions.ToggleHiddenFiles.id,
+  ChonkyActions.OpenSelection.id,
+];
+
+const fileActions = [
+  CreateFile,
+  ChonkyActions.CreateFolder,
+  ChonkyActions.DeleteFiles,
+];
 
 export function PluralisFileBrowser() {
   const {
@@ -18,27 +30,19 @@ export function PluralisFileBrowser() {
     createFolder,
     createFile,
   } = useBrowserVFS();
-
-  const files = useFiles(fileMap, currentFolderId);
-  const folderChain = useFolderChain(fileMap, currentFolderId);
-  const handleFileAction = useFileActionHandler(
+  const handleFileAction = useFileActionHandler({
     setCurrentFolderId,
     deleteFiles,
     moveFiles,
-    createFolder,
-    () => setIsCreateFileDialogOpen(true),
-  );
+    openCreateFolderDialog: () => setIsCreateFolderDialogOpen(true),
+    openCreateFileDialog: () => setIsCreateFileDialogOpen(true),
+  });
 
-  const fileActions = useMemo(
-    () => [CreateFile, ChonkyActions.CreateFolder, ChonkyActions.DeleteFiles],
-    [],
-  );
-  const disabledActions = [
-    ChonkyActions.ToggleHiddenFiles.id,
-    ChonkyActions.OpenSelection.id,
-  ];
-
+  const files = useFiles(fileMap, currentFolderId);
+  const folderChain = useFolderChain(fileMap, currentFolderId);
   const [isCreateFileDialogOpen, setIsCreateFileDialogOpen] = useState(false);
+  const [isCreateFolderDialogOpen, setIsCreateFolderDialogOpen] =
+    useState(false);
 
   return (
     <Container width={1000} height={450}>
@@ -57,6 +61,11 @@ export function PluralisFileBrowser() {
         open={isCreateFileDialogOpen}
         setOpen={setIsCreateFileDialogOpen}
         createFile={createFile}
+      />
+      <CreateFolderDialog
+        open={isCreateFolderDialogOpen}
+        setOpen={setIsCreateFolderDialogOpen}
+        createFolder={createFolder}
       />
     </Container>
   );

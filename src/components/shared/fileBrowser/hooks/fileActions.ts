@@ -15,17 +15,24 @@ type CustomHandler = GenericFileActionHandler<
   ChonkyActionUnion | typeof CreateFile
 >;
 
-export const useFileActionHandler = (
-  setCurrentFolderId: (folderId: string) => void,
-  deleteFiles: (files: CustomFileData[]) => void,
+type UseFileActionHandlerArgs = {
+  setCurrentFolderId: (folderId: string) => void;
+  deleteFiles: (files: CustomFileData[]) => void;
   moveFiles: (
     files: FileData[],
     source: FileData,
     destination: FileData,
-  ) => void,
-  createFolder: (folderName: string) => void,
-  openFormDialog: () => void,
-) => {
+  ) => void;
+  openCreateFolderDialog: () => void;
+  openCreateFileDialog: () => void;
+};
+export const useFileActionHandler = ({
+  setCurrentFolderId,
+  deleteFiles,
+  moveFiles,
+  openCreateFolderDialog,
+  openCreateFileDialog,
+}: UseFileActionHandlerArgs) => {
   const { setValue } = useFormContext<Attraction>();
   return useCallback<CustomHandler>(
     (data) => {
@@ -57,19 +64,18 @@ export const useFileActionHandler = (
           data.payload.destination,
         );
       } else if (data.id === ChonkyActions.CreateFolder.id) {
-        const folderName = prompt("Provide the name for your new folder:");
-        if (folderName) createFolder(folderName);
+        openCreateFolderDialog();
       } else if (data.id === CreateFile.id) {
-        openFormDialog();
+        openCreateFileDialog();
       }
     },
     [
-      createFolder,
       deleteFiles,
       moveFiles,
       setCurrentFolderId,
       setValue,
-      openFormDialog,
+      openCreateFolderDialog,
+      openCreateFileDialog,
     ],
   );
 };
