@@ -5,6 +5,7 @@ import { CustomFileData, CustomFileMap } from "./fileTypes";
 import defaultFiles from "./default_files.json";
 import { useCallbackRef } from "@chakra-ui/react";
 import { Attraction } from "@/pages/PdfGenerator";
+import { NewFileForm } from "./CreateFileDialog";
 
 const prepareCustomFileMap = () => {
   const baseFileMap = defaultFiles.fileMap as unknown as CustomFileMap;
@@ -128,35 +129,32 @@ export const useBrowserVFS = () => {
     });
   }, []);
 
-  const createFile = useCallback(
-    (file: { filename: string; attraction: Attraction }) => {
-      setFileMap((currentFileMap) => {
-        const newFileMap = { ...currentFileMap };
+  const createFile = useCallback((file: NewFileForm) => {
+    setFileMap((currentFileMap) => {
+      const newFileMap = { ...currentFileMap };
 
-        // Create the new file
-        const newFileId = `new-file-${idCounter.current++}`;
-        newFileMap[newFileId] = {
-          id: newFileId,
-          name: file.filename + ".txt",
-          isDir: false,
-          modDate: new Date(),
-          parentId: currentFolderIdRef.current,
-          content: file.attraction,
-          isHidden: false,
-        };
+      // Create the new file
+      const newFileId = `new-file-${idCounter.current++}`;
+      newFileMap[newFileId] = {
+        id: newFileId,
+        name: file.filename + ".txt",
+        isDir: false,
+        modDate: new Date(),
+        parentId: currentFolderIdRef.current,
+        content: { title: file.title, description: file.description },
+        isHidden: false,
+      };
 
-        // Update parent folder to reference the new file.
-        const parent = newFileMap[currentFolderIdRef.current];
-        newFileMap[currentFolderIdRef.current] = {
-          ...parent,
-          childrenIds: [...parent.childrenIds!, newFileId],
-        };
+      // Update parent folder to reference the new file.
+      const parent = newFileMap[currentFolderIdRef.current];
+      newFileMap[currentFolderIdRef.current] = {
+        ...parent,
+        childrenIds: [...parent.childrenIds!, newFileId],
+      };
 
-        return newFileMap;
-      });
-    },
-    [],
-  );
+      return newFileMap;
+    });
+  }, []);
 
   return {
     fileMap,

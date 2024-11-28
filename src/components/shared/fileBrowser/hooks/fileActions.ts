@@ -24,7 +24,7 @@ export const useFileActionHandler = (
     destination: FileData,
   ) => void,
   createFolder: (folderName: string) => void,
-  createFile: (file: { filename: string; attraction: Attraction }) => void,
+  openFormDialog: () => void,
 ) => {
   const { setValue } = useFormContext<Attraction>();
   return useCallback<CustomHandler>(
@@ -60,13 +60,7 @@ export const useFileActionHandler = (
         const folderName = prompt("Provide the name for your new folder:");
         if (folderName) createFolder(folderName);
       } else if (data.id === CreateFile.id) {
-        const filename = prompt("Provide the name for your new file:");
-        if (filename) {
-          createFile({
-            filename,
-            attraction: { title: "Hola", description: "Lola" },
-          });
-        }
+        openFormDialog();
       }
     },
     [
@@ -75,7 +69,7 @@ export const useFileActionHandler = (
       moveFiles,
       setCurrentFolderId,
       setValue,
-      createFile,
+      openFormDialog,
     ],
   );
 };

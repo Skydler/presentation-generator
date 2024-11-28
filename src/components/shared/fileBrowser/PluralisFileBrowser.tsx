@@ -1,11 +1,12 @@
 import { Container } from "@chakra-ui/react";
 import { FullFileBrowser, ChonkyActions } from "@aperturerobotics/chonky";
 import { ChonkyIconFA } from "@aperturerobotics/chonky-icon-fontawesome";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useBrowserVFS } from "./browserVFS";
 import { useFileActionHandler } from "./hooks/fileActions";
 import { useFiles, useFolderChain } from "./hooks/fileNavigation";
 import { CreateFile } from "./customActions";
+import { CreateFileDialog } from "./CreateFileDialog";
 
 export function PluralisFileBrowser() {
   const {
@@ -25,7 +26,7 @@ export function PluralisFileBrowser() {
     deleteFiles,
     moveFiles,
     createFolder,
-    createFile,
+    () => setIsCreateFileDialogOpen(true),
   );
 
   const fileActions = useMemo(
@@ -36,6 +37,8 @@ export function PluralisFileBrowser() {
     ChonkyActions.ToggleHiddenFiles.id,
     ChonkyActions.OpenSelection.id,
   ];
+
+  const [isCreateFileDialogOpen, setIsCreateFileDialogOpen] = useState(false);
 
   return (
     <Container width={1000} height={450}>
@@ -48,6 +51,12 @@ export function PluralisFileBrowser() {
         iconComponent={ChonkyIconFA as any}
         defaultFileViewActionId={ChonkyActions.EnableListView.id}
         disableDefaultFileActions={disabledActions}
+      />
+
+      <CreateFileDialog
+        open={isCreateFileDialogOpen}
+        setOpen={setIsCreateFileDialogOpen}
+        createFile={createFile}
       />
     </Container>
   );
