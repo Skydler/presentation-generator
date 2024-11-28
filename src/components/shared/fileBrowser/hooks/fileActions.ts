@@ -6,9 +6,9 @@ import {
 } from "@aperturerobotics/chonky";
 import { CustomFileData } from "../fileTypes";
 import { useCallback } from "react";
-import { toaster } from "@/components/ui/toaster";
+import { toaster } from "../../../ui/toaster";
 import { useFormContext } from "react-hook-form";
-import { Attraction } from "@/pages/PdfGenerator";
+import { Attraction } from "../../../../pages/PdfGenerator";
 import { CreateFile } from "../customActions";
 
 type CustomHandler = GenericFileActionHandler<

@@ -8,9 +8,9 @@ import {
   DialogCloseTrigger,
   DialogFooter,
   DialogActionTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Field } from "@/components/ui/field";
+} from "../../ui/dialog";
+import { Button } from "../../ui/button";
+import { Field } from "../../ui/field";
 import { useForm } from "react-hook-form";
 
 export type NewFolderForm = {

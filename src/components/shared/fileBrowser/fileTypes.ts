@@ -1,4 +1,4 @@
-import { Attraction } from "@/pages/PdfGenerator";
+import { Attraction } from "../../../pages/PdfGenerator";
 import { FileData } from "@aperturerobotics/chonky";
 
 export interface CustomFileData extends FileData {

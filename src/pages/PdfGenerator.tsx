@@ -1,13 +1,13 @@
 import { HStack, Separator, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { AttractionEditor } from "@/components/shared/AttractionsEditor";
+import { AttractionEditor } from "../components/shared/AttractionsEditor";
 import {
   ContentPage,
   PdfDocumentViewer,
-} from "@/components/shared/PdfDocumentViewer";
-import { PageController } from "@/components/shared/PageController";
-import { PluralisFileBrowser } from "@/components/shared/fileBrowser/PluralisFileBrowser";
-import { Toaster } from "@/components/ui/toaster";
+} from "../components/shared/PdfDocumentViewer";
+import { PageController } from "../components/shared/PageController";
+import { PluralisFileBrowser } from "../components/shared/fileBrowser/PluralisFileBrowser";
+import { Toaster } from "../components/ui/toaster";
 import { FormProvider, useForm } from "react-hook-form";
 
 export type Attraction = {

@@ -3,8 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CustomFileData, CustomFileMap } from "./fileTypes";
 import defaultFiles from "./default_files.json";
-import { useCallbackRef } from "@chakra-ui/react";
-import { Attraction } from "@/pages/PdfGenerator";
 import { NewFileForm } from "./CreateFileDialog";
 import { NewFolderForm } from "./CreateFolderDialog";
 

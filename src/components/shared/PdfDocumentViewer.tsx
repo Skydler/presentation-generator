@@ -1,10 +1,10 @@
-import { Attraction } from "@/pages/PdfGenerator";
+import { Attraction } from "../../pages/PdfGenerator";
 import { Image, PDFViewer, StyleSheet } from "@react-pdf/renderer";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
-import BackgroundImage from "@/assets/background.png";
-import LogoPluralis from "@/assets/logo_pluralis.png";
-import Intro from "@/assets/intro.png";
-import IntroPresentation from "@/assets/intro_presentation.png";
+import BackgroundImage from "../../assets/background.png";
+import LogoPluralis from "../../assets/logo_pluralis.png";
+import Intro from "../../assets/intro.png";
+import IntroPresentation from "../../assets/intro_presentation.png";
 
 export type ContentPage = {
   attraction: Attraction;
