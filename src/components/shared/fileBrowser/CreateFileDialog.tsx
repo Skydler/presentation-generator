@@ -24,11 +24,7 @@ type CreateFileDialogProps = {
   setOpen: (open: boolean) => void;
   createFile: (data: NewFileForm) => void;
 };
-export function CreateFileDialog({
-  open,
-  setOpen,
-  createFile,
-}: CreateFileDialogProps) {
+export function CreateFileDialog({ open, setOpen, createFile }: CreateFileDialogProps) {
   const {
     register,
     handleSubmit,
@@ -47,11 +43,7 @@ export function CreateFileDialog({
           </DialogHeader>
           <DialogBody>
             <VStack gap="4">
-              <Field
-                label="File name"
-                invalid={!!errors.filename}
-                errorText={errors.filename?.message}
-              >
+              <Field label="File name" invalid={!!errors.filename} errorText={errors.filename?.message}>
                 <Input
                   placeholder="Buenos Aires"
                   {...register("filename", {
@@ -59,21 +51,10 @@ export function CreateFileDialog({
                   })}
                 />
               </Field>
-              <Field
-                label="Title"
-                invalid={!!errors.title}
-                errorText={errors.title?.message}
-              >
-                <Input
-                  placeholder="La gran provincia"
-                  {...register("title", { required: "Title is required" })}
-                />
+              <Field label="Title" invalid={!!errors.title} errorText={errors.title?.message}>
+                <Input placeholder="La gran provincia" {...register("title", { required: "Title is required" })} />
               </Field>
-              <Field
-                label="Description"
-                invalid={!!errors.description}
-                errorText={errors.description?.message}
-              >
+              <Field label="Description" invalid={!!errors.description} errorText={errors.description?.message}>
                 <Input
                   placeholder="La gran provincia de Buenos Aires"
                   {...register("description", {

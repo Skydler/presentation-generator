@@ -1,10 +1,7 @@
 import { HStack, Separator, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { AttractionEditor } from "../components/shared/AttractionsEditor";
-import {
-  ContentPage,
-  PdfDocumentViewer,
-} from "../components/shared/PdfDocumentViewer";
+import { ContentPage, PdfDocumentViewer } from "../components/shared/PdfDocumentViewer";
 import { PageController } from "../components/shared/PageController";
 import { PluralisFileBrowser } from "../components/shared/fileBrowser/PluralisFileBrowser";
 import { Toaster } from "../components/ui/toaster";
@@ -42,9 +39,7 @@ function PdfGenerator() {
             setCurrentProd={setCurrentProd}
             handleRemovePage={() => {
               if (products.length > 1) {
-                const newProducts = products.filter(
-                  (_, index) => index !== currentProdIndex,
-                );
+                const newProducts = products.filter((_, index) => index !== currentProdIndex);
                 setProducts(newProducts);
                 setCurrentProd(currentProd - 1);
               }

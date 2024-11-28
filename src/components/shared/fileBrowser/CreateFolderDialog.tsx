@@ -22,11 +22,7 @@ type CreateFolderDialogProps = {
   setOpen: (open: boolean) => void;
   createFolder: (data: NewFolderForm) => void;
 };
-export function CreateFolderDialog({
-  open,
-  setOpen,
-  createFolder,
-}: CreateFolderDialogProps) {
+export function CreateFolderDialog({ open, setOpen, createFolder }: CreateFolderDialogProps) {
   const {
     register,
     handleSubmit,
@@ -44,11 +40,7 @@ export function CreateFolderDialog({
           </DialogHeader>
           <DialogBody>
             <VStack gap="4">
-              <Field
-                label="Folder name"
-                invalid={!!errors.folderName}
-                errorText={errors.folderName?.message}
-              >
+              <Field label="Folder name" invalid={!!errors.folderName} errorText={errors.folderName?.message}>
                 <Input
                   placeholder="Folder"
                   {...register("folderName", {

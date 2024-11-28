@@ -9,27 +9,12 @@ import { CreateFile } from "./customActions";
 import { CreateFileDialog } from "./CreateFileDialog";
 import { CreateFolderDialog } from "./CreateFolderDialog";
 
-const disabledActions = [
-  ChonkyActions.ToggleHiddenFiles.id,
-  ChonkyActions.OpenSelection.id,
-];
-
-const fileActions = [
-  CreateFile,
-  ChonkyActions.CreateFolder,
-  ChonkyActions.DeleteFiles,
-];
+const disabledActions = [ChonkyActions.ToggleHiddenFiles.id, ChonkyActions.OpenSelection.id];
+const fileActions = [CreateFile, ChonkyActions.CreateFolder, ChonkyActions.DeleteFiles];
 
 export function PluralisFileBrowser() {
-  const {
-    fileMap,
-    currentFolderId,
-    setCurrentFolderId,
-    deleteFiles,
-    moveFiles,
-    createFolder,
-    createFile,
-  } = useBrowserVFS();
+  const { fileMap, currentFolderId, setCurrentFolderId, deleteFiles, moveFiles, createFolder, createFile } =
+    useBrowserVFS();
   const handleFileAction = useFileActionHandler({
     setCurrentFolderId,
     deleteFiles,
@@ -41,8 +26,7 @@ export function PluralisFileBrowser() {
   const files = useFiles(fileMap, currentFolderId);
   const folderChain = useFolderChain(fileMap, currentFolderId);
   const [isCreateFileDialogOpen, setIsCreateFileDialogOpen] = useState(false);
-  const [isCreateFolderDialogOpen, setIsCreateFolderDialogOpen] =
-    useState(false);
+  const [isCreateFolderDialogOpen, setIsCreateFolderDialogOpen] = useState(false);
 
   return (
     <Container width={1000} height={450}>
@@ -57,11 +41,7 @@ export function PluralisFileBrowser() {
         disableDefaultFileActions={disabledActions}
       />
 
-      <CreateFileDialog
-        open={isCreateFileDialogOpen}
-        setOpen={setIsCreateFileDialogOpen}
-        createFile={createFile}
-      />
+      <CreateFileDialog open={isCreateFileDialogOpen} setOpen={setIsCreateFileDialogOpen} createFile={createFile} />
       <CreateFolderDialog
         open={isCreateFolderDialogOpen}
         setOpen={setIsCreateFolderDialogOpen}
