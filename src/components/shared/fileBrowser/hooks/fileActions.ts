@@ -2,10 +2,12 @@ import {
   ChonkyActions,
   ChonkyFileActionData,
   FileData,
-  FileHelper,
 } from "@aperturerobotics/chonky";
 import { CustomFileData } from "../fileTypes";
 import { useCallback } from "react";
+import { toaster } from "@/components/ui/toaster";
+import { useFormContext } from "react-hook-form";
+import { Attraction } from "@/pages/PdfGenerator";
 
 export const useFileActionHandler = (
   setCurrentFolderId: (folderId: string) => void,
@@ -17,14 +19,27 @@ export const useFileActionHandler = (
   ) => void,
   createFolder: (folderName: string) => void,
 ) => {
+  const { setValue } = useFormContext<Attraction>();
   return useCallback(
     (data: ChonkyFileActionData) => {
       if (data.id === ChonkyActions.OpenFiles.id) {
         const { targetFile, files } = data.payload;
-        const fileToOpen = targetFile ?? files[0];
-        if (fileToOpen && FileHelper.isDirectory(fileToOpen)) {
+        const fileToOpen: CustomFileData = targetFile ?? files[0];
+
+        if (!fileToOpen) return;
+
+        if (fileToOpen.isDir) {
           setCurrentFolderId(fileToOpen.id);
           return;
+        } else {
+          if (!fileToOpen.content) throw new Error("File content is missing");
+
+          setValue("title", fileToOpen.content.title);
+          setValue("description", fileToOpen.content.description);
+          toaster.create({
+            title: "File Opened: " + fileToOpen.content.title,
+            type: "success",
+          });
         }
       } else if (data.id === ChonkyActions.DeleteFiles.id) {
         deleteFiles(data.state.selectedFilesForAction!);
@@ -39,6 +54,6 @@ export const useFileActionHandler = (
         if (folderName) createFolder(folderName);
       }
     },
-    [createFolder, deleteFiles, moveFiles, setCurrentFolderId],
+    [createFolder, deleteFiles, moveFiles, setCurrentFolderId, setValue],
   );
 };

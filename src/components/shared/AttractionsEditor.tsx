@@ -2,7 +2,7 @@ import { Fieldset, Input, Textarea, VStack } from "@chakra-ui/react";
 import { Attraction } from "@/pages/PdfGenerator";
 import { Field } from "../ui/field";
 import { Button } from "../ui/button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useFormContext } from "react-hook-form";
 
 type AttractionsListProps = { updatePage: (attraction: Attraction) => void };
 export function AttractionEditor({ updatePage }: AttractionsListProps) {
@@ -10,7 +10,7 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Attraction>();
+  } = useFormContext<Attraction>();
   const onSubmit: SubmitHandler<Attraction> = (data) => updatePage(data);
 
   return (

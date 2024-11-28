@@ -2,7 +2,7 @@
 // https://github.com/TimboKZ/chonky-website/blob/master/2.x_storybook/src/demos/VFSMutable.tsx
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CustomFileData, CustomFileMap } from "./fileTypes";
-import defaultFiles from "../../../assets/default_files.json";
+import defaultFiles from "./default_files.json";
 
 const prepareCustomFileMap = () => {
   const baseFileMap = defaultFiles.fileMap as unknown as CustomFileMap;

@@ -1,0 +1,50 @@
+{
+  "rootFolderId": "0",
+  "fileMap": {
+    "0": {
+      "id": "0",
+      "name": "Pluralis Attractions",
+      "isDir": true,
+      "childrenIds": ["1", "4"],
+      "childrenCount": 2
+    },
+    "1": {
+      "id": "1",
+      "name": "Buenos Aires",
+      "isDir": true,
+      "childrenIds": ["2", "3"],
+      "childrenCount": 2,
+      "parentId": "0"
+    },
+    "2": {
+      "id": "2",
+      "name": "Quilmes.txt",
+      "size": 2293,
+      "modDate": "2020-10-20T03:11:50.570Z",
+      "parentId": "1",
+      "content": {
+        "title": "Quilmes",
+        "description": "La ciudad de la birra"
+      }
+    },
+    "3": {
+      "id": "3",
+      "name": "Bernal.txt",
+      "size": 2293,
+      "modDate": "2020-10-20T03:11:50.570Z",
+      "parentId": "1",
+      "content": {
+        "title": "Bernal",
+        "description": "Esta ciudad no tiene birra"
+      }
+    },
+    "4": {
+      "id": "4",
+      "name": "Mendoza",
+      "isDir": true,
+      "childrenIds": [],
+      "childrenCount": 0,
+      "parentId": "0"
+    }
+  }
+}
