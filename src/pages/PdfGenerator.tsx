@@ -30,34 +30,36 @@ function PdfGenerator() {
 
   return (
     <FormProvider {...methods}>
-      <VStack height="vh" justifyContent="center" gap={10}>
-        <PluralisFileBrowser />
+      <VStack height="vh" justifyContent="center">
         <HStack gap={10}>
-          <PageController
-            pages={products}
-            currentProdIndex={currentProd}
-            setCurrentProd={setCurrentProd}
-            handleRemovePage={() => {
-              if (products.length > 1) {
-                const newProducts = products.filter((_, index) => index !== currentProdIndex);
-                setProducts(newProducts);
-                setCurrentProd(currentProd - 1);
-              }
-            }}
-            handleNewPage={() => {
-              const newProducts = [...products, emptyProduct];
-              setProducts(newProducts);
-              setCurrentProd(currentProd + 1);
-            }}
-          >
-            <AttractionEditor
-              updatePage={(data: Attraction) => {
-                const newProducts = [...products];
-                newProducts[currentProdIndex] = { attraction: data };
-                setProducts(newProducts);
+          <VStack gap={10}>
+            <PluralisFileBrowser />
+            <PageController
+              pages={products}
+              currentProdIndex={currentProd}
+              setCurrentProd={setCurrentProd}
+              handleRemovePage={() => {
+                if (products.length > 1) {
+                  const newProducts = products.filter((_, index) => index !== currentProdIndex);
+                  setProducts(newProducts);
+                  setCurrentProd(currentProd - 1);
+                }
               }}
-            />
-          </PageController>
+              handleNewPage={() => {
+                const newProducts = [...products, emptyProduct];
+                setProducts(newProducts);
+                setCurrentProd(currentProd + 1);
+              }}
+            >
+              <AttractionEditor
+                updatePage={(data: Attraction) => {
+                  const newProducts = [...products];
+                  newProducts[currentProdIndex] = { attraction: data };
+                  setProducts(newProducts);
+                }}
+              />
+            </PageController>
+          </VStack>
           <Separator orientation="vertical" />
           <PdfDocumentViewer products={products} />
         </HStack>

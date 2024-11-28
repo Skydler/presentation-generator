@@ -1,10 +1,5 @@
 import { HStack, VStack } from "@chakra-ui/react";
-import {
-  PaginationNextTrigger,
-  PaginationPageText,
-  PaginationPrevTrigger,
-  PaginationRoot,
-} from "../ui/pagination";
+import { PaginationNextTrigger, PaginationPageText, PaginationPrevTrigger, PaginationRoot } from "../ui/pagination";
 import { ContentPage } from "./PdfDocumentViewer";
 import { ReactNode } from "react";
 import { Button } from "../ui/button";
@@ -45,11 +40,7 @@ export function PageController({
 
       <HStack gap={4}>
         {pages.length > 1 && (
-          <Button
-            variant="surface"
-            colorPalette="red"
-            onClick={handleRemovePage}
-          >
+          <Button variant="surface" colorPalette="red" onClick={handleRemovePage}>
             Delete
           </Button>
         )}

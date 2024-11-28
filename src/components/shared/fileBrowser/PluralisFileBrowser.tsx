@@ -29,7 +29,7 @@ export function PluralisFileBrowser() {
   const [isCreateFolderDialogOpen, setIsCreateFolderDialogOpen] = useState(false);
 
   return (
-    <Container width={1000} height={450}>
+    <Container height={300} width={700}>
       <FullFileBrowser
         files={files}
         folderChain={folderChain}
