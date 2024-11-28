@@ -224,7 +224,7 @@ const useFileActionHandler = (
   );
 };
 
-export function PluralistFileBrowser() {
+export function PluralisFileBrowser() {
   const {
     fileMap,
     currentFolderId,
