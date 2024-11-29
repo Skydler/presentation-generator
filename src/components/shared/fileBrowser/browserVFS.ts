@@ -1,6 +1,6 @@
 // This is example has been taken from
 // https://github.com/TimboKZ/chonky-website/blob/master/2.x_storybook/src/demos/VFSMutable.tsx
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CustomFileData, CustomFileMap } from "./fileTypes";
 import defaultFiles from "./default_files.json";
 import { NewFileForm } from "./CreateFileDialog";
@@ -15,7 +15,7 @@ const prepareCustomFileMap = () => {
 // This hook contains the state of the virtual file system (VFS), with the
 // current directory and all the actions the user can perform over files
 export const useBrowserVFS = () => {
-  const { baseFileMap, rootFolderId } = useMemo(prepareCustomFileMap, []);
+  const { baseFileMap, rootFolderId } = prepareCustomFileMap();
 
   const [fileMap, setFileMap] = useState(baseFileMap);
   const [currentFolderId, setCurrentFolderId] = useState(rootFolderId);
@@ -38,9 +38,7 @@ export const useBrowserVFS = () => {
         // file we just deleted.
         if (file.parentId) {
           const parent = newFileMap[file.parentId]!;
-          const newChildrenIds = parent.childrenIds!.filter(
-            (id) => id !== file.id,
-          );
+          const newChildrenIds = parent.childrenIds!.filter((id) => id !== file.id);
           newFileMap[file.parentId] = {
             ...parent,
             childrenIds: newChildrenIds,
@@ -53,51 +51,39 @@ export const useBrowserVFS = () => {
     });
   }, []);
 
-  const moveFiles = useCallback(
-    (
-      files: CustomFileData[],
-      source: CustomFileData,
-      destination: CustomFileData,
-    ) => {
-      setFileMap((currentFileMap) => {
-        const newFileMap = { ...currentFileMap };
-        const moveFileIds = new Set(files.map((f) => f.id));
+  const moveFiles = useCallback((files: CustomFileData[], source: CustomFileData, destination: CustomFileData) => {
+    setFileMap((currentFileMap) => {
+      const newFileMap = { ...currentFileMap };
+      const moveFileIds = new Set(files.map((f) => f.id));
 
-        // Delete files from their source folder.
-        const newSourceChildrenIds = source.childrenIds!.filter(
-          (id) => !moveFileIds.has(id),
-        );
-        newFileMap[source.id] = {
-          ...source,
-          childrenIds: newSourceChildrenIds,
-          childrenCount: newSourceChildrenIds.length,
+      // Delete files from their source folder.
+      const newSourceChildrenIds = source.childrenIds!.filter((id) => !moveFileIds.has(id));
+      newFileMap[source.id] = {
+        ...source,
+        childrenIds: newSourceChildrenIds,
+        childrenCount: newSourceChildrenIds.length,
+      };
+
+      // Add the files to their destination folder.
+      const newDestinationChildrenIds = [...destination.childrenIds!, ...files.map((f) => f.id)];
+      newFileMap[destination.id] = {
+        ...destination,
+        childrenIds: newDestinationChildrenIds,
+        childrenCount: newDestinationChildrenIds.length,
+      };
+
+      // Finally, update the parent folder ID on the files from source folder
+      // ID to the destination folder ID.
+      files.forEach((file) => {
+        newFileMap[file.id] = {
+          ...file,
+          parentId: destination.id,
         };
-
-        // Add the files to their destination folder.
-        const newDestinationChildrenIds = [
-          ...destination.childrenIds!,
-          ...files.map((f) => f.id),
-        ];
-        newFileMap[destination.id] = {
-          ...destination,
-          childrenIds: newDestinationChildrenIds,
-          childrenCount: newDestinationChildrenIds.length,
-        };
-
-        // Finally, update the parent folder ID on the files from source folder
-        // ID to the destination folder ID.
-        files.forEach((file) => {
-          newFileMap[file.id] = {
-            ...file,
-            parentId: destination.id,
-          };
-        });
-
-        return newFileMap;
       });
-    },
-    [],
-  );
+
+      return newFileMap;
+    });
+  }, []);
 
   // TODO: Should replace with UUID generator or similar
   const idCounter = useRef(0);
