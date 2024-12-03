@@ -57,7 +57,7 @@ export function CreateFileDialog({ open, setOpen, createFile }: CreateFileDialog
                 />
               </Field>
               <Field label="Title" invalid={!!errors.title} errorText={errors.title?.message}>
-                <Input placeholder="La gran provincia" {...register("title", { required: "Title is required" })} />
+                <Input placeholder="La gran provincia" {...register("title")} />
               </Field>
               <Field label="Description" invalid={!!errors.description} errorText={errors.description?.message}>
                 <Controller

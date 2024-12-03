@@ -26,7 +26,7 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
           <Fieldset.Legend>Edit attraction</Fieldset.Legend>
           <Fieldset.Content>
             <Field label="Title" invalid={!!errors.title} errorText={errors.title?.message}>
-              <Input {...register("title", { required: "Title is required" })} />
+              <Input {...register("title")} />
             </Field>
             <Field label="Description" invalid={!!errors.description} errorText={errors.description?.message}>
               <Controller

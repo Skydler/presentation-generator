@@ -27,12 +27,13 @@ export function PdfDocumentViewer({ products }: PdfDocumentViewerProps) {
           <Image src={IntroPresentation} style={styles.background} />
         </Page>
         {products.map((page, index) => {
+          console.log(page.attraction.description);
           return (
             <Page key={`product-${index}`} orientation="landscape" style={styles.page}>
               <View style={styles.content} data-page-number={index}>
                 <Text style={styles.title}>{page.attraction.title}</Text>
-                <Html>{page.attraction.description}</Html>
-                <Image src={LogoPluralis} style={styles.logo} />
+                <Html style={styles.description}>{QuillCustomStyles + page.attraction.description}</Html>
+                <Image src={LogoPluralis} style={styles.logo} fixed />
               </View>
               <Image src={BackgroundImage} style={styles.background} fixed />
             </Page>
@@ -77,16 +78,130 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 50,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
   },
   title: {
     fontSize: 36,
     marginBottom: 30,
   },
-  description: {
-    fontSize: 24,
-  },
+  description: {},
 });
+
+/*
+ * NOTE:
+ * This styles are taken from React-Quilljs package.
+ * The package assigns these styles to the genereated html instead of inline styling it so
+ * I have to assign these styles to the PDF Viewer myself :( */
+const QuillCustomStyles = `
+<style>
+.ql-video {
+  display: block;
+  max-width: 100%;
+}
+.ql-video.ql-align-center {
+  margin: 0 auto;
+}
+.ql-video.ql-align-right {
+  margin: 0 0 0 auto;
+}
+.ql-bg-black {
+  background-color: #000000;
+}
+.ql-bg-red {
+  background-color: #e60000;
+}
+.ql-bg-orange {
+  background-color: #f90;
+}
+.ql-bg-yellow {
+  background-color: #ff0;
+}
+.ql-bg-green {
+  background-color: #008a00;
+}
+.ql-bg-blue {
+  background-color: #06c;
+}
+.ql-bg-purple {
+  background-color: #93f;
+}
+.ql-color-white {
+  color: #ffffff;
+}
+.ql-color-red {
+  color: #e60000;
+}
+.ql-color-orange {
+  color: #f90;
+}
+.ql-color-yellow {
+  color: #ff0;
+}
+.ql-color-green {
+  color: #008a00;
+}
+.ql-color-blue {
+  color: #06c;
+}
+.ql-color-purple {
+  color: #93f;
+}
+.ql-font-serif {
+  font-family:
+    Georgia,
+    Times New Roman,
+    serif;
+}
+.ql-font-monospace {
+  font-family:
+    Monaco,
+    Courier New,
+    monospace;
+}
+.ql-size-small {
+  font-size: 12px;
+}
+.ql-size-large {
+  font-size: 24px;
+}
+.ql-size-huge {
+  font-size: 40px;
+}
+.ql-direction-rtl {
+  direction: rtl;
+  text-align: inherit;
+}
+.ql-align-center {
+  text-align: center;
+}
+.ql-align-justify {
+  text-align: justify;
+}
+.ql-align-right {
+  text-align: right;
+}
+h1 {
+  font-size: 32px;
+}
+h2 {
+  font-size: 24px;
+}
+h3 {
+  font-size: 19px;
+}
+h4 {
+  font-size: 16px;
+}
+h5 {
+  font-size: 13px;
+}
+h6 {
+  font-size: 11px;
+}
+a {
+  text-decoration: underline;
+}
+img {
+  max-width: 100%;
+}
+</style>
+` as const;
