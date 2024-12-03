@@ -39,5 +39,9 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
     }
   }, [quill, value, onChange]);
 
-  return <Box ref={quillRef} width="100%" height={200} maxWidth={650} />;
+  return (
+    <Box>
+      <Box ref={quillRef} height={200} />
+    </Box>
+  );
 }

@@ -20,8 +20,10 @@ export function PageController({
   handleNewPage,
   handleRemovePage,
 }: PageControllerProps) {
+  const canRemovePage = pages.length > 1;
+
   return (
-    <VStack gap={10}>
+    <VStack gap={5}>
       <PaginationRoot
         count={pages.length}
         page={currentProdIndex}
@@ -38,13 +40,11 @@ export function PageController({
 
       {children}
 
-      <HStack gap={4}>
-        {pages.length > 1 && (
-          <Button variant="surface" colorPalette="red" onClick={handleRemovePage}>
-            Delete
-          </Button>
-        )}
-        <Button variant="solid" colorPalette="green" onClick={handleNewPage}>
+      <HStack gap={4} width="100%">
+        <Button variant="surface" colorPalette="red" onClick={handleRemovePage} disabled={!canRemovePage} flex={1}>
+          Delete
+        </Button>
+        <Button variant="solid" colorPalette="green" onClick={handleNewPage} flex={1}>
           New Product
         </Button>
       </HStack>

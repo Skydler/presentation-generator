@@ -1,4 +1,4 @@
-import { Fieldset, Input, VStack } from "@chakra-ui/react";
+import { Box, Fieldset, Input } from "@chakra-ui/react";
 import { Attraction } from "../../pages/PdfGenerator";
 import { Field } from "../ui/field";
 import { Button } from "../ui/button";
@@ -20,10 +20,10 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
   const onSubmit: SubmitHandler<Attraction> = (data) => updatePage({ ...data, description: description });
 
   return (
-    <VStack gap={10}>
+    <Box>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Fieldset.Root>
-          <Fieldset.Legend>Edit attraction</Fieldset.Legend>
+          <Fieldset.Legend fontSize="lg">Edit attraction</Fieldset.Legend>
           <Fieldset.Content>
             <Field label="Title" invalid={!!errors.title} errorText={errors.title?.message}>
               <Input {...register("title")} />
@@ -41,6 +41,6 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
           <Button type="submit">Update</Button>
         </Fieldset.Root>
       </form>
-    </VStack>
+    </Box>
   );
 }
