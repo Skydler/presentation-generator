@@ -1,8 +1,10 @@
-import { Fieldset, Input, Textarea, VStack } from "@chakra-ui/react";
+import { Fieldset, Input, VStack } from "@chakra-ui/react";
 import { Attraction } from "../../pages/PdfGenerator";
 import { Field } from "../ui/field";
 import { Button } from "../ui/button";
-import { SubmitHandler, useFormContext } from "react-hook-form";
+import { Controller, SubmitHandler, useFormContext } from "react-hook-form";
+import { RichTextEditor } from "./RichTextEditor";
+import { useState } from "react";
 
 type AttractionsListProps = { updatePage: (attraction: Attraction) => void };
 export function AttractionEditor({ updatePage }: AttractionsListProps) {
@@ -10,8 +12,12 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useFormContext<Attraction>();
-  const onSubmit: SubmitHandler<Attraction> = (data) => updatePage(data);
+  // We need to store the description in a separate state so RichTextEditor works as expected
+  // The issue I encountered has something to do with the rerendering of the component
+  const [description, setDescription] = useState("");
+  const onSubmit: SubmitHandler<Attraction> = (data) => updatePage({ ...data, description: description });
 
   return (
     <VStack gap={10}>
@@ -19,24 +25,16 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
         <Fieldset.Root>
           <Fieldset.Legend>Edit attraction</Fieldset.Legend>
           <Fieldset.Content>
-            <Field
-              label="Title"
-              invalid={!!errors.title}
-              errorText={errors.title?.message}
-            >
-              <Input
-                {...register("title", { required: "Title is required" })}
-              />
+            <Field label="Title" invalid={!!errors.title} errorText={errors.title?.message}>
+              <Input {...register("title", { required: "Title is required" })} />
             </Field>
-            <Field
-              label="Description"
-              invalid={!!errors.description}
-              errorText={errors.description?.message}
-            >
-              <Textarea
-                {...register("description", {
-                  required: "Description is required",
-                })}
+            <Field label="Description" invalid={!!errors.description} errorText={errors.description?.message}>
+              <Controller
+                name="description"
+                control={control}
+                render={({ field: { value } }) => (
+                  <RichTextEditor onChange={setDescription} value={value} placeholder="Write something..." />
+                )}
               />
             </Field>
           </Fieldset.Content>

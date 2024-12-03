@@ -11,7 +11,9 @@ import {
 } from "../../ui/dialog";
 import { Button } from "../../ui/button";
 import { Field } from "../../ui/field";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { useState } from "react";
+import { RichTextEditor } from "../RichTextEditor";
 
 export type NewFileForm = {
   filename: string;
@@ -28,10 +30,13 @@ export function CreateFileDialog({ open, setOpen, createFile }: CreateFileDialog
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<NewFileForm>();
+
+  const [description, setDescription] = useState("");
   const newFileSubmit = (data: NewFileForm) => {
-    createFile(data);
+    createFile({ ...data, description: description });
   };
 
   return (
@@ -55,11 +60,12 @@ export function CreateFileDialog({ open, setOpen, createFile }: CreateFileDialog
                 <Input placeholder="La gran provincia" {...register("title", { required: "Title is required" })} />
               </Field>
               <Field label="Description" invalid={!!errors.description} errorText={errors.description?.message}>
-                <Input
-                  placeholder="La gran provincia de Buenos Aires"
-                  {...register("description", {
-                    required: "Description is required",
-                  })}
+                <Controller
+                  name="description"
+                  control={control}
+                  render={({ field: { value } }) => (
+                    <RichTextEditor onChange={setDescription} value={value} placeholder="Write something..." />
+                  )}
                 />
               </Field>
             </VStack>
