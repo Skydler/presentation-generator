@@ -33,7 +33,7 @@ function PdfGenerator() {
     <FormProvider {...methods}>
       <VStack height="vh" justifyContent="center">
         <HStack gap={10}>
-          <VStack gap={10}>
+          <VStack gap={10} maxWidth={700}>
             <PluralisFileBrowser />
             <PageController
               pages={products}
