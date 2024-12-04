@@ -1,46 +1,42 @@
-import { Attraction } from "../../pages/PdfGenerator";
-import { Font, Image, PDFViewer, StyleSheet } from "@react-pdf/renderer";
+import { Font, Image, StyleSheet } from "@react-pdf/renderer";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
-import BackgroundImage from "../../assets/background.png";
-import LogoPluralis from "../../assets/logo_pluralis.png";
-import Intro from "../../assets/intro.png";
-import IntroPresentation from "../../assets/intro_presentation.png";
+import BackgroundImage from "../../../assets/background.png";
+import LogoPluralis from "../../../assets/logo_pluralis.png";
+import Intro from "../../../assets/intro.png";
+import IntroPresentation from "../../../assets/intro_presentation.png";
 import Html from "react-pdf-html";
-import OpenSansRegular from "../../assets/fonts/OpenSans-Regular.ttf";
-import OpenSansBold from "../../assets/fonts/OpenSans-Bold.ttf";
-import OpenSansItalic from "../../assets/fonts/OpenSans-Italic.ttf";
-import OpenSansBoldItalic from "../../assets/fonts/OpenSans-BoldItalic.ttf";
+import OpenSansRegular from "../../../assets/fonts/OpenSans-Regular.ttf";
+import OpenSansBold from "../../../assets/fonts/OpenSans-Bold.ttf";
+import OpenSansItalic from "../../../assets/fonts/OpenSans-Italic.ttf";
+import OpenSansBoldItalic from "../../../assets/fonts/OpenSans-BoldItalic.ttf";
+import { Attraction } from "../../../pages/PdfGenerator";
 
 export type ContentPage = {
   attraction: Attraction;
 };
-
-type PdfDocumentViewerProps = { products: ContentPage[] };
-export function PdfDocumentViewer({ products }: PdfDocumentViewerProps) {
+type PdfDocumentProps = { products: ContentPage[] };
+export function PdfDocument({ products }: PdfDocumentProps) {
   return (
-    <PDFViewer height="100%" width={700}>
-      <Document title="Pluralis PDF" pageLayout="singlePage">
-        <Page key="intro-1" orientation="landscape" style={styles.page}>
-          <Image src={Intro} style={styles.background} />
-        </Page>
-        <Page key="intro-2" orientation="landscape" style={styles.page}>
-          <Image src={IntroPresentation} style={styles.background} />
-        </Page>
-        {products.map((page, index) => {
-          console.log(page.attraction.description);
-          return (
-            <Page key={`product-${index}`} orientation="landscape" style={styles.page}>
-              <View style={styles.content} data-page-number={index}>
-                <Text style={styles.title}>{page.attraction.title}</Text>
-                <Html style={styles.description}>{QuillCustomStyles + page.attraction.description}</Html>
-                <Image src={LogoPluralis} style={styles.logo} fixed />
-              </View>
-              <Image src={BackgroundImage} style={styles.background} fixed />
-            </Page>
-          );
-        })}
-      </Document>
-    </PDFViewer>
+    <Document title="Pluralis PDF" pageLayout="singlePage">
+      <Page key="intro-1" orientation="landscape" style={styles.page}>
+        <Image src={Intro} style={styles.background} />
+      </Page>
+      <Page key="intro-2" orientation="landscape" style={styles.page}>
+        <Image src={IntroPresentation} style={styles.background} />
+      </Page>
+      {products.map((page, index) => {
+        return (
+          <Page key={`product-${index}`} orientation="landscape" style={styles.page}>
+            <View style={styles.content} data-page-number={index}>
+              <Text style={styles.title}>{page.attraction.title}</Text>
+              <Html style={styles.description}>{QuillCustomStyles + page.attraction.description}</Html>
+              <Image src={LogoPluralis} style={styles.logo} fixed />
+            </View>
+            <Image src={BackgroundImage} style={styles.background} fixed />
+          </Page>
+        );
+      })}
+    </Document>
   );
 }
 

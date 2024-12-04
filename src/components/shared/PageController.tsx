@@ -1,8 +1,8 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import { PaginationNextTrigger, PaginationPageText, PaginationPrevTrigger, PaginationRoot } from "../ui/pagination";
-import { ContentPage } from "./PdfDocumentViewer";
 import { ReactNode } from "react";
 import { Button } from "../ui/button";
+import { ContentPage } from "./pdf/PdfDocument";
 
 type PageControllerProps = {
   pages: ContentPage[];
