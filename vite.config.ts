@@ -17,4 +17,7 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  build: {
+    commonjsOptions: { transformMixedEsModules: true }, // Change
+  },
 });
