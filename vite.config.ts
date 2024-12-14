@@ -18,6 +18,7 @@ export default defineConfig({
     tsconfigPaths(),
   ],
   build: {
+    sourcemap: true,
     commonjsOptions: { transformMixedEsModules: true }, // Change
   },
 });
