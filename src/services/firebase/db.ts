@@ -6,11 +6,15 @@ import {
   getDocs,
   getFirestore,
   increment,
+  onSnapshot,
+  or,
+  query,
   runTransaction,
+  where,
   writeBatch,
 } from "firebase/firestore";
 import { app } from "./app";
-import { CustomFileData } from "../../components/shared/fileBrowser/fileTypes";
+import { CustomFileData, CustomFileMap } from "../../components/shared/fileBrowser/fileTypes";
 
 const db = getFirestore(app);
 const PRODUCT_FILES_COLLECTION = "product-files";
@@ -18,6 +22,23 @@ const PRODUCT_FILES_COLLECTION = "product-files";
 export const getProductFiles = async () => {
   const productFiles = await getDocs(collection(db, PRODUCT_FILES_COLLECTION));
   return productFiles;
+};
+
+export const setCurrentFolderSnapshot = async (folderId: string, setFiles: (newFiles: CustomFileMap) => void) => {
+  const q = query(
+    collection(db, PRODUCT_FILES_COLLECTION),
+    or(where("id", "==", folderId), where("parentId", "==", folderId)),
+  );
+
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    const newFileMap: CustomFileMap = {};
+    for (const doc of snapshot.docs) {
+      newFileMap[doc.id] = { ...doc.data(), id: doc.id } as CustomFileData;
+    }
+    setFiles(newFileMap);
+  });
+
+  return unsubscribe;
 };
 
 export const deleteProductFiles = async (files: CustomFileData[]) => {
