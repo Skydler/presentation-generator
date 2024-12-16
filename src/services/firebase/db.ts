@@ -6,14 +6,13 @@ import {
   getFirestore,
   increment,
   onSnapshot,
-  or,
   query,
   runTransaction,
-  where,
   writeBatch,
 } from "firebase/firestore";
 import { app } from "./app";
 import { CustomFileData, CustomFileMap } from "../../components/shared/fileBrowser/fileTypes";
+import { toaster } from "../../components/ui/toaster";
 
 const db = getFirestore(app);
 const PRODUCT_FILES_COLLECTION = "product-files";
@@ -21,11 +20,13 @@ const PRODUCT_FILES_COLLECTION = "product-files";
 export const setCurrentFolderSnapshot = async (folderId: string, setFiles: (newFiles: CustomFileMap) => void) => {
   const q = query(
     collection(db, PRODUCT_FILES_COLLECTION),
-    or(
-      where("id", "==", folderId),
-      where("parentId", "==", folderId),
-      where("childrenIds", "array-contains", folderId),
-    ),
+    // NOTE: Removed thsese filters for now because they were causing issues when
+    // creating files and folders
+    //or(
+    //  where("id", "==", folderId),
+    //  where("parentId", "==", folderId),
+    //  where("childrenIds", "array-contains", folderId),
+    //),
   );
 
   const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -44,6 +45,14 @@ export const deleteProductFiles = async (files: CustomFileData[]) => {
     const batch = writeBatch(db);
 
     files.forEach(async (file) => {
+      if (file.isDir && file.childrenIds!.length > 0) {
+        toaster.create({
+          title: "Cannot delete non-empty folder",
+          type: "error",
+        });
+        throw Error("Cannot delete non-empty folder");
+      }
+
       const fileDocRef = doc(db, PRODUCT_FILES_COLLECTION, file.id);
       batch.delete(fileDocRef);
 
