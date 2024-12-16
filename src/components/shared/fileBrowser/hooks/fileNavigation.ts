@@ -2,10 +2,7 @@ import { FileArray } from "@aperturerobotics/chonky";
 import { CustomFileMap } from "../fileTypes";
 import { useMemo } from "react";
 
-export const useFiles = (
-  fileMap: CustomFileMap,
-  currentFolderId: string,
-): FileArray => {
+export const useFiles = (fileMap: CustomFileMap, currentFolderId: string): FileArray => {
   return useMemo(() => {
     const currentFolder = fileMap[currentFolderId];
     const childrenIds = currentFolder.childrenIds!;
@@ -14,10 +11,7 @@ export const useFiles = (
   }, [currentFolderId, fileMap]);
 };
 
-export const useFolderChain = (
-  fileMap: CustomFileMap,
-  currentFolderId: string,
-): FileArray => {
+export const useFolderChain = (fileMap: CustomFileMap, currentFolderId: string): FileArray => {
   return useMemo(() => {
     const currentFolder = fileMap[currentFolderId];
 

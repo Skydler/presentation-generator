@@ -3,7 +3,6 @@ import {
   arrayUnion,
   collection,
   doc,
-  getDocs,
   getFirestore,
   increment,
   onSnapshot,
@@ -19,15 +18,14 @@ import { CustomFileData, CustomFileMap } from "../../components/shared/fileBrows
 const db = getFirestore(app);
 const PRODUCT_FILES_COLLECTION = "product-files";
 
-export const getProductFiles = async () => {
-  const productFiles = await getDocs(collection(db, PRODUCT_FILES_COLLECTION));
-  return productFiles;
-};
-
 export const setCurrentFolderSnapshot = async (folderId: string, setFiles: (newFiles: CustomFileMap) => void) => {
   const q = query(
     collection(db, PRODUCT_FILES_COLLECTION),
-    or(where("id", "==", folderId), where("parentId", "==", folderId)),
+    or(
+      where("id", "==", folderId),
+      where("parentId", "==", folderId),
+      where("childrenIds", "array-contains", folderId),
+    ),
   );
 
   const unsubscribe = onSnapshot(q, (snapshot) => {
