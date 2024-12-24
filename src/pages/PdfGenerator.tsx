@@ -50,6 +50,8 @@ function PdfGenerator() {
                 const newProducts = [...products, emptyProduct];
                 setProducts(newProducts);
                 setCurrentProd(currentProd + 1);
+                methods.setValue("title", "");
+                methods.setValue("description", "");
               }}
             >
               <AttractionEditor
