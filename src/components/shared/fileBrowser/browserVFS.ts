@@ -30,7 +30,7 @@ export const useBrowserVFS = () => {
 
   useEffect(() => {
     // This will track the current folder and update the file map on db changes
-    setCurrentFolderSnapshot(currentFolderId, setFileMap);
+    setCurrentFolderSnapshot(setFileMap);
   }, [currentFolderId]);
 
   useEffect(() => {

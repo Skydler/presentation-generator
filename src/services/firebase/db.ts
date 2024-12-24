@@ -17,17 +17,8 @@ import { toaster } from "../../components/ui/toaster";
 const db = getFirestore(app);
 const PRODUCT_FILES_COLLECTION = "product-files";
 
-export const setCurrentFolderSnapshot = async (folderId: string, setFiles: (newFiles: CustomFileMap) => void) => {
-  const q = query(
-    collection(db, PRODUCT_FILES_COLLECTION),
-    // NOTE: Removed thsese filters for now because they were causing issues when
-    // creating files and folders
-    //or(
-    //  where("id", "==", folderId),
-    //  where("parentId", "==", folderId),
-    //  where("childrenIds", "array-contains", folderId),
-    //),
-  );
+export const setCurrentFolderSnapshot = async (setFiles: (newFiles: CustomFileMap) => void) => {
+  const q = query(collection(db, PRODUCT_FILES_COLLECTION));
 
   const unsubscribe = onSnapshot(q, (snapshot) => {
     const newFileMap: CustomFileMap = {};
