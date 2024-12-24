@@ -1,10 +1,10 @@
+import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./services/firebase/auth";
 import PdfGenerator from "./pages/PdfGenerator";
 import { Login } from "./pages/Login";
-import "./global.css";
 import { AuthLayout } from "./components/shared/layout/authLayout";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { LoadingSpinner } from "./components/shared/LoadingSpinner";
+import "./global.css";
 
 function App() {
   const [user, loading] = useAuthState(auth);

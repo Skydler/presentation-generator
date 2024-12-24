@@ -5,9 +5,19 @@ import { Button } from "../../ui/button";
 import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from "../../ui/menu";
 import { useSignOut } from "react-firebase-hooks/auth";
 import { auth } from "../../../services/firebase/auth";
+import { userWhitelist } from "../../../whitelist";
+import { useEffect } from "react";
+import { toaster } from "../../ui/toaster";
 
 export function AuthLayout({ user, children }: { user: User; children: React.ReactNode }) {
   const [signOut] = useSignOut(auth);
+
+  useEffect(() => {
+    if (user && !userWhitelist.includes(user.uid)) {
+      toaster.error({ title: "You are not authorized to access this application" });
+      signOut();
+    }
+  }, [user, user.email, signOut]);
 
   return (
     <Box>

@@ -4,7 +4,6 @@ import { AttractionEditor } from "../components/shared/AttractionsEditor";
 import { PdfDocumentViewer } from "../components/shared/pdf/PdfDocumentViewer";
 import { PageController } from "../components/shared/PageController";
 import { PluralisFileBrowser } from "../components/shared/fileBrowser/PluralisFileBrowser";
-import { Toaster } from "../components/ui/toaster";
 import { FormProvider, useForm } from "react-hook-form";
 import { ContentPage } from "../components/shared/pdf/PdfDocument";
 
@@ -65,7 +64,6 @@ function PdfGenerator() {
           <PdfDocumentViewer products={products} />
         </HStack>
       </VStack>
-      <Toaster />
     </FormProvider>
   );
 }
