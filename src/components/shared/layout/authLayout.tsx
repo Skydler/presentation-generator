@@ -21,7 +21,7 @@ export function AuthLayout({ user, children }: { user: User; children: React.Rea
 
   return (
     <Box>
-      <HStack position="absolute" justifyContent="end" width="full" bgColor="teal.50" px={5} py={3}>
+      <HStack justifyContent="end" width="full" bgColor="teal.50" px={5} py={3} mb={3}>
         <MenuRoot positioning={{ placement: "bottom-end" }}>
           <MenuTrigger asChild>
             <Button variant="plain">

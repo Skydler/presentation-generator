@@ -1,4 +1,4 @@
-import { Container } from "@chakra-ui/react";
+import { Container, Stack } from "@chakra-ui/react";
 import { FullFileBrowser, ChonkyActions } from "@aperturerobotics/chonky";
 import { ChonkyIconFA } from "@aperturerobotics/chonky-icon-fontawesome";
 import { useState } from "react";
@@ -29,7 +29,7 @@ export function PluralisFileBrowser() {
   const [isCreateFolderDialogOpen, setIsCreateFolderDialogOpen] = useState(false);
 
   return (
-    <Container height={300} width={700}>
+    <Stack width="full">
       <FullFileBrowser
         files={files}
         folderChain={folderChain}
@@ -47,6 +47,6 @@ export function PluralisFileBrowser() {
         setOpen={setIsCreateFolderDialogOpen}
         createFolder={createFolder}
       />
-    </Container>
+    </Stack>
   );
 }

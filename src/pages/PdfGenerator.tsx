@@ -1,4 +1,4 @@
-import { HStack, Separator, VStack } from "@chakra-ui/react";
+import { Container, Stack, Separator, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { AttractionEditor } from "../components/shared/AttractionsEditor";
 import { PdfDocumentViewer } from "../components/shared/pdf/PdfDocumentViewer";
@@ -30,9 +30,9 @@ function PdfGenerator() {
 
   return (
     <FormProvider {...methods}>
-      <VStack height="vh" justifyContent="center">
-        <HStack gap={10}>
-          <VStack gap={10} maxWidth={700}>
+      <Container>
+        <Stack direction="column" gap={10} lg={{ flexDirection: "row" }}>
+          <VStack gap={10} flex={1}>
             <PluralisFileBrowser />
             <PageController
               pages={products}
@@ -60,10 +60,14 @@ function PdfGenerator() {
               />
             </PageController>
           </VStack>
-          <Separator orientation="vertical" />
-          <PdfDocumentViewer products={products} />
-        </HStack>
-      </VStack>
+          <VStack>
+            <Separator orientation="vertical" />
+          </VStack>
+          <VStack gap={10} flex={1}>
+            <PdfDocumentViewer products={products} />
+          </VStack>
+        </Stack>
+      </Container>
     </FormProvider>
   );
 }

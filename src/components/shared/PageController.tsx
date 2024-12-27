@@ -23,7 +23,7 @@ export function PageController({
   const canRemovePage = pages.length > 1;
 
   return (
-    <VStack gap={5}>
+    <VStack gap={5} width="full">
       <PaginationRoot
         count={pages.length}
         page={currentProdIndex}
