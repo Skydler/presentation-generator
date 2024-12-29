@@ -1,10 +1,9 @@
-import { Font, Image, StyleSheet } from "@react-pdf/renderer";
-import { Document, Page, Text, View } from "@react-pdf/renderer";
+import { Font, Image, StyleSheet, Document, Page, Text, View } from "@react-pdf/renderer";
+import Html from "react-pdf-html";
 import BackgroundImage from "../../../assets/background.png";
 import LogoPluralis from "../../../assets/logo_pluralis.png";
 import Intro from "../../../assets/intro.png";
 import IntroPresentation from "../../../assets/intro_presentation.png";
-import Html from "react-pdf-html";
 import OpenSansRegular from "../../../assets/fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../../../assets/fonts/OpenSans-Bold.ttf";
 import OpenSansItalic from "../../../assets/fonts/OpenSans-Italic.ttf";
@@ -87,7 +86,7 @@ const styles = StyleSheet.create({
  * NOTE:
  * This styles are taken from React-Quilljs package.
  * The package assigns these styles to the genereated html instead of inline styling it so
- * I have to assign these styles to the PDF Viewer myself :( */
+ * I have to assign these styles to the PDF Viewer manually :( */
 const QuillCustomStyles = `
 <style>
 .ql-video {
