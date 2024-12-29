@@ -4,7 +4,6 @@ import { Field } from "../ui/field";
 import { Button } from "../ui/button";
 import { Controller, SubmitHandler, useFormContext } from "react-hook-form";
 import { RichTextEditor } from "./RichTextEditor";
-import { useState } from "react";
 
 type AttractionsListProps = { updatePage: (attraction: Attraction) => void };
 export function AttractionEditor({ updatePage }: AttractionsListProps) {
@@ -14,10 +13,7 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
     formState: { errors },
     control,
   } = useFormContext<Attraction>();
-  // We need to store the description in a separate state so RichTextEditor works as expected
-  // The issue I encountered has something to do with the rerendering of the component
-  const [description, setDescription] = useState("");
-  const onSubmit: SubmitHandler<Attraction> = (data) => updatePage({ ...data, description: description });
+  const onSubmit: SubmitHandler<Attraction> = (data) => updatePage(data);
 
   return (
     <Box>
@@ -32,8 +28,8 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
               <Controller
                 name="description"
                 control={control}
-                render={({ field: { value } }) => (
-                  <RichTextEditor onChange={setDescription} value={value} placeholder="Write something..." />
+                render={({ field: { value, onChange } }) => (
+                  <RichTextEditor onChange={onChange} value={value} placeholder="<p>Write something...</p> <br> <br>" />
                 )}
               />
             </Field>

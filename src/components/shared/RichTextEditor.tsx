@@ -1,44 +1,37 @@
-import { useQuill } from "react-quilljs";
-import "quill/dist/quill.snow.css";
-import { Box } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
+
+const extensions = [StarterKit];
 
 type RichTextEditorProps = {
   value: string;
   placeholder: string;
   onChange: (value: string) => void;
 };
-export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorProps) {
-  const modules = {
-    toolbar: [
-      ["bold", "italic", "underline", "strike"],
-      [{ align: [] }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ size: ["small", false, "large", "huge"] }],
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["link", "image"],
-      [{ color: [] }, { background: [] }],
-      ["clean"],
-    ],
-    clipboard: {
-      matchVisual: false,
-    },
-  };
 
-  const { quill, quillRef } = useQuill({ placeholder, modules });
+export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorProps) {
+  const editor = useEditor({
+    extensions,
+    onUpdate: (content) => onChange(content.editor.getHTML()),
+  });
 
   useEffect(() => {
-    if (quill) {
-      quill.clipboard.dangerouslyPasteHTML(value);
-      quill.on("text-change", () => {
-        onChange(quill.getSemanticHTML());
-      });
-    }
-  }, [quill, value, onChange]);
+    editor?.commands.setContent(value || placeholder);
+  }, [editor, value, onChange, placeholder]);
 
   return (
-    <Box>
-      <Box ref={quillRef} height={200} />
-    </Box>
+    <>
+      <HStack>Fixed menu</HStack>
+      <EditorContent
+        editor={editor}
+        style={{
+          width: "700px",
+          border: "1px solid #e4e4e7",
+          borderRadius: "4px",
+        }}
+      />
+    </>
   );
 }
