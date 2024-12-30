@@ -6,6 +6,7 @@ import ImageResize from "tiptap-extension-resize-image";
 import FileHandler from "@tiptap-pro/extension-file-handler";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
+import "./rte/styles.css";
 import TextAlign from "@tiptap/extension-text-align";
 
 type RichTextEditorProps = { value: string; placeholder: string; onChange: (value: string) => void };
@@ -76,18 +77,18 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
         },
       }),
     ],
-    //onUpdate: (content) => onChange(content.editor.getHTML()),
-    onUpdate: (content) => console.log(content.editor.getHTML()),
+    onUpdate: (content) => onChange(content.editor.getHTML()),
+    //onUpdate: (content) => console.log(content.editor.getHTML()),
   });
 
   useEffect(() => {
-    if (!editor) return;
+    if (!editor || !value) return;
 
     // Preserving position when setting content in a controlled manner with ReactHookForm
     const { from, to } = editor.state.selection;
-    editor.commands.setContent(value || placeholder);
+    editor.commands.setContent(value, false, { preserveWhitespace: "full" });
     editor.commands.setTextSelection({ from, to });
-  }, [editor, value, onChange, placeholder]);
+  }, [editor, value, onChange]);
 
   if (!editor) return;
 
