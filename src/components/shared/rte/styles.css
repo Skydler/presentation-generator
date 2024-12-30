@@ -22,3 +22,9 @@
     color: #5800cc;
   }
 }
+
+ul,
+ol {
+  list-style: revert;
+  margin-left: 20px;
+}

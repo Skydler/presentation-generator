@@ -8,6 +8,7 @@ import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
+import { patchTipTapHTML } from "./rte/utils";
 import "./rte/styles.css";
 
 type RichTextEditorProps = { value: string; placeholder: string; onChange: (value: string) => void };
@@ -82,8 +83,8 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
         },
       }),
     ],
-    onUpdate: (content) => onChange(content.editor.getHTML()),
-    //onUpdate: (content) => console.log(content.editor.getHTML()),
+    onUpdate: (content) => onChange(patchTipTapHTML(content.editor.getHTML())),
+    //onUpdate: (content) => console.log(patchTipTapHTML(content.editor.getHTML())),
   });
 
   useEffect(() => {
