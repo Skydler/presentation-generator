@@ -1,6 +1,20 @@
 import { HStack, IconButton } from "@chakra-ui/react";
 import { Editor } from "@tiptap/react";
-import { LuBold, LuImage, LuItalic, LuList, LuRedo, LuStrikethrough, LuUnderline, LuUndo } from "react-icons/lu";
+import {
+  LuAlignCenter,
+  LuAlignLeft,
+  LuAlignRight,
+  LuBold,
+  LuImage,
+  LuItalic,
+  LuList,
+  LuListOrdered,
+  LuMinus,
+  LuRedo,
+  LuStrikethrough,
+  LuUnderline,
+  LuUndo,
+} from "react-icons/lu";
 import { FileUploadRoot, FileUploadTrigger } from "../../ui/file-button";
 
 type FixedMenuProps = { editor: Editor };
@@ -14,7 +28,6 @@ export function FixedMenu({ editor }: FixedMenuProps) {
       >
         <LuBold />
       </IconButton>
-
       <IconButton
         variant={editor.isActive("italic") ? "solid" : "outline"}
         size="xs"
@@ -22,7 +35,6 @@ export function FixedMenu({ editor }: FixedMenuProps) {
       >
         <LuItalic />
       </IconButton>
-
       <IconButton
         variant={editor.isActive("underline") ? "solid" : "outline"}
         size="xs"
@@ -30,7 +42,6 @@ export function FixedMenu({ editor }: FixedMenuProps) {
       >
         <LuUnderline />
       </IconButton>
-
       <IconButton
         variant={editor.isActive("strike") ? "solid" : "outline"}
         size="xs"
@@ -38,7 +49,6 @@ export function FixedMenu({ editor }: FixedMenuProps) {
       >
         <LuStrikethrough />
       </IconButton>
-
       <IconButton
         // BUG: this button does not work
         variant={editor.isActive("bulletList") ? "solid" : "outline"}
@@ -47,15 +57,43 @@ export function FixedMenu({ editor }: FixedMenuProps) {
       >
         <LuList />
       </IconButton>
+      <IconButton
+        variant={editor.isActive("orderedList") ? "solid" : "outline"}
+        size="xs"
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+      >
+        <LuListOrdered />
+      </IconButton>
+
+      <IconButton
+        variant={editor.isActive({ textAlign: "left" }) ? "solid" : "outline"}
+        size="xs"
+        onClick={() => editor.chain().focus().setTextAlign("left").run()}
+      >
+        <LuAlignLeft />
+      </IconButton>
+
+      <IconButton
+        variant={editor.isActive({ textAlign: "center" }) ? "solid" : "outline"}
+        size="xs"
+        onClick={() => editor.chain().focus().setTextAlign("center").run()}
+      >
+        <LuAlignCenter />
+      </IconButton>
+      <IconButton
+        variant={editor.isActive({ textAlign: "right" }) ? "solid" : "outline"}
+        size="xs"
+        onClick={() => editor.chain().focus().setTextAlign("right").run()}
+      >
+        <LuAlignRight />
+      </IconButton>
 
       <IconButton variant="outline" size="xs" onClick={() => editor.chain().focus().undo().run()}>
         <LuUndo />
       </IconButton>
-
       <IconButton variant="outline" size="xs" onClick={() => editor.chain().focus().redo().run()}>
         <LuRedo />
       </IconButton>
-
       <FileUploadRoot
         accept={"image/png, image/jpeg, image/webp"}
         onFileAccept={(details) => {
@@ -72,6 +110,7 @@ export function FixedMenu({ editor }: FixedMenuProps) {
           </IconButton>
         </FileUploadTrigger>
       </FileUploadRoot>
+      {/* TODO: Color and background color, links */}
     </HStack>
   );
 }

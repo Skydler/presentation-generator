@@ -5,13 +5,24 @@ import { FixedMenu } from "./rte/FixedMenu";
 import ImageResize from "tiptap-extension-resize-image";
 import FileHandler from "@tiptap-pro/extension-file-handler";
 import Underline from "@tiptap/extension-underline";
+import Placeholder from "@tiptap/extension-placeholder";
+import TextAlign from "@tiptap/extension-text-align";
 
 type RichTextEditorProps = { value: string; placeholder: string; onChange: (value: string) => void };
 export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorProps) {
   const editor = useEditor({
+    parseOptions: {
+      preserveWhitespace: "full",
+    },
     extensions: [
       StarterKit,
       Underline,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+      Placeholder.configure({
+        placeholder,
+      }),
       ImageResize.configure({
         allowBase64: true,
         inline: true,

@@ -29,7 +29,7 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
                 name="description"
                 control={control}
                 render={({ field: { value, onChange } }) => (
-                  <RichTextEditor onChange={onChange} value={value} placeholder="<p>Write something...</p> <br> <br>" />
+                  <RichTextEditor onChange={onChange} value={value} placeholder="Write something..." />
                 )}
               />
             </Field>
