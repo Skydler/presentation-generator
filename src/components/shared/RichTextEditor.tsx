@@ -4,12 +4,14 @@ import { useEffect } from "react";
 import { FixedMenu } from "./rte/FixedMenu";
 import ImageResize from "tiptap-extension-resize-image";
 import FileHandler from "@tiptap-pro/extension-file-handler";
+import Underline from "@tiptap/extension-underline";
 
 type RichTextEditorProps = { value: string; placeholder: string; onChange: (value: string) => void };
 export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Underline,
       ImageResize.configure({
         allowBase64: true,
         inline: true,
