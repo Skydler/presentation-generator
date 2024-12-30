@@ -1,3 +1,10 @@
+.tiptap {
+  padding: 10px;
+  height: 200px;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
 .tiptap p.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);
@@ -6,9 +13,12 @@
   pointer-events: none;
 }
 
-.tiptap {
-  padding: 10px;
-  height: 200px;
-  max-height: 300px;
-  overflow-y: scroll;
+.tiptap a {
+  color: #6a00f5;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: #5800cc;
+  }
 }

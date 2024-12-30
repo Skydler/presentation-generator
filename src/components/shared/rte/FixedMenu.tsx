@@ -80,6 +80,7 @@ export function FixedMenu({ editor }: FixedMenuProps) {
       >
         <LuAlignCenter />
       </IconButton>
+
       <IconButton
         variant={editor.isActive({ textAlign: "right" }) ? "solid" : "outline"}
         size="xs"
@@ -91,9 +92,11 @@ export function FixedMenu({ editor }: FixedMenuProps) {
       <IconButton variant="outline" size="xs" onClick={() => editor.chain().focus().undo().run()}>
         <LuUndo />
       </IconButton>
+
       <IconButton variant="outline" size="xs" onClick={() => editor.chain().focus().redo().run()}>
         <LuRedo />
       </IconButton>
+
       <FileUploadRoot
         accept={"image/png, image/jpeg, image/webp"}
         onFileAccept={(details) => {
@@ -110,6 +113,7 @@ export function FixedMenu({ editor }: FixedMenuProps) {
           </IconButton>
         </FileUploadTrigger>
       </FileUploadRoot>
+
       {/* TODO: Color and background color, links */}
     </HStack>
   );

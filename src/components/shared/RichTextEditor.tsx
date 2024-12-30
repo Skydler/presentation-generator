@@ -6,8 +6,9 @@ import ImageResize from "tiptap-extension-resize-image";
 import FileHandler from "@tiptap-pro/extension-file-handler";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
-import "./rte/styles.css";
 import TextAlign from "@tiptap/extension-text-align";
+import Link from "@tiptap/extension-link";
+import "./rte/styles.css";
 
 type RichTextEditorProps = { value: string; placeholder: string; onChange: (value: string) => void };
 export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorProps) {
@@ -27,6 +28,10 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
       ImageResize.configure({
         allowBase64: true,
         inline: true,
+      }),
+      Link.configure({
+        defaultProtocol: "https",
+        protocols: ["http", "https"],
       }),
       FileHandler.configure({
         allowedMimeTypes: ["image/png", "image/jpeg", "image/webp"],
