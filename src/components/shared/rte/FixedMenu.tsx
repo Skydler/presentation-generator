@@ -130,20 +130,24 @@ function TextAlignSection({ editor }: { editor: Editor }) {
         </MenuContent>
       </MenuRoot>
 
-      <IconButton
-        variant={editor.isActive("bulletList") ? "solid" : "ghost"}
-        size="xs"
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-      >
-        <LuList />
-      </IconButton>
-      <IconButton
-        variant={editor.isActive("orderedList") ? "solid" : "ghost"}
-        size="xs"
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-      >
-        <LuListOrdered />
-      </IconButton>
+      <Tooltip content="Bullet list (Ctrl + shift + 8)">
+        <IconButton
+          variant={editor.isActive("bulletList") ? "solid" : "ghost"}
+          size="xs"
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+        >
+          <LuList />
+        </IconButton>
+      </Tooltip>
+      <Tooltip content="Ordered list (Ctrl + shift + 7)">
+        <IconButton
+          variant={editor.isActive("orderedList") ? "solid" : "ghost"}
+          size="xs"
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        >
+          <LuListOrdered />
+        </IconButton>
+      </Tooltip>
     </>
   );
 }
@@ -162,9 +166,11 @@ function MediaSection({ editor }: { editor: Editor }) {
       width="unset"
     >
       <FileUploadTrigger asChild>
-        <IconButton variant="ghost" size="xs">
-          <LuImage />
-        </IconButton>
+        <Tooltip content="Insert image">
+          <IconButton variant="ghost" size="xs">
+            <LuImage />
+          </IconButton>
+        </Tooltip>
       </FileUploadTrigger>
     </FileUploadRoot>
   );
@@ -173,13 +179,17 @@ function MediaSection({ editor }: { editor: Editor }) {
 function HistorySection({ editor }: { editor: Editor }) {
   return (
     <>
-      <IconButton variant="ghost" size="xs" onClick={() => editor.chain().focus().undo().run()}>
-        <LuUndo />
-      </IconButton>
+      <Tooltip content="Undo (Ctrl + Z)">
+        <IconButton variant="ghost" size="xs" onClick={() => editor.chain().focus().undo().run()}>
+          <LuUndo />
+        </IconButton>
+      </Tooltip>
 
-      <IconButton variant="ghost" size="xs" onClick={() => editor.chain().focus().redo().run()}>
-        <LuRedo />
-      </IconButton>
+      <Tooltip content="Redo (Ctrl + shift + Z)">
+        <IconButton variant="ghost" size="xs" onClick={() => editor.chain().focus().redo().run()}>
+          <LuRedo />
+        </IconButton>
+      </Tooltip>
     </>
   );
 }
