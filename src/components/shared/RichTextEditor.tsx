@@ -10,6 +10,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 import { patchTipTapHTML } from "./rte/utils";
 import "./rte/styles.css";
+import { VStack } from "@chakra-ui/react";
 
 type RichTextEditorProps = { value: string; placeholder: string; onChange: (value: string) => void };
 export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorProps) {
@@ -99,16 +100,14 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
   if (!editor) return;
 
   return (
-    <>
+    <VStack gap={0} border="1px solid #e4e4e7" borderRadius="sm">
       <FixedMenu editor={editor} />
       <EditorContent
         editor={editor}
         style={{
           width: "700px",
-          border: "1px solid #e4e4e7",
-          borderRadius: "4px",
         }}
       />
-    </>
+    </VStack>
   );
 }
