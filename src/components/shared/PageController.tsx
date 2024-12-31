@@ -3,6 +3,8 @@ import { PaginationNextTrigger, PaginationPageText, PaginationPrevTrigger, Pagin
 import { ReactNode } from "react";
 import { Button } from "../ui/button";
 import { ContentPage } from "./pdf/PdfDocument";
+import { useFormContext } from "react-hook-form";
+import { Attraction } from "../../pages/PdfGenerator";
 
 type PageControllerProps = {
   pages: ContentPage[];
@@ -20,6 +22,7 @@ export function PageController({
   handleNewPage,
   handleRemovePage,
 }: PageControllerProps) {
+  const { setValue } = useFormContext<Attraction>();
   const canRemovePage = pages.length > 1;
 
   return (
@@ -29,7 +32,11 @@ export function PageController({
         page={currentProdIndex}
         pageSize={1}
         defaultPage={1}
-        onPageChange={(detail) => setCurrentProd(detail.page)}
+        onPageChange={(detail) => {
+          setCurrentProd(detail.page);
+          setValue("title", pages[detail.page - 1].attraction.title);
+          setValue("description", pages[detail.page - 1].attraction.description);
+        }}
       >
         <HStack gap={4}>
           <PaginationPrevTrigger />
