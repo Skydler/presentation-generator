@@ -3,7 +3,7 @@ import { Attraction } from "../../pages/PdfGenerator";
 import { Field } from "../ui/field";
 import { Button } from "../ui/button";
 import { Controller, SubmitHandler, useFormContext } from "react-hook-form";
-import { RichTextEditor } from "./RichTextEditor";
+import { RichTextEditor } from "./rte/RichTextEditor";
 
 type AttractionsListProps = { updatePage: (attraction: Attraction) => void };
 export function AttractionEditor({ updatePage }: AttractionsListProps) {

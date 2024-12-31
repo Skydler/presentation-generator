@@ -13,7 +13,7 @@ import { Button } from "../../ui/button";
 import { Field } from "../../ui/field";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
-import { RichTextEditor } from "../RichTextEditor";
+import { RichTextEditor } from "../rte/RichTextEditor";
 
 export type NewFileForm = {
   filename: string;

@@ -1,16 +1,16 @@
+import { useEffect } from "react";
+import { VStack } from "@chakra-ui/react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useEffect } from "react";
-import { FixedMenu } from "./rte/FixedMenu";
 import ImageResize from "tiptap-extension-resize-image";
 import FileHandler from "@tiptap-pro/extension-file-handler";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
-import { patchTipTapHTML } from "./rte/utils";
-import "./rte/styles.css";
-import { VStack } from "@chakra-ui/react";
+import { FixedMenu } from "./FixedMenu";
+import { patchTipTapHTML } from "./utils";
+import "./styles.css";
 
 type RichTextEditorProps = { value: string; placeholder: string; onChange: (value: string) => void };
 export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorProps) {
@@ -56,15 +56,8 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
             };
           });
         },
-        onPaste: (currentEditor, files, htmlContent) => {
+        onPaste: (currentEditor, files) => {
           files.forEach((file) => {
-            if (htmlContent) {
-              // if there is htmlContent, stop manual insertion & let other extensions handle insertion via inputRule
-              // you could extract the pasted file from this url string and upload it to a server for example
-              console.log(htmlContent); // eslint-disable-line no-console
-              return false;
-            }
-
             const fileReader = new FileReader();
 
             fileReader.readAsDataURL(file);
