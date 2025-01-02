@@ -1,4 +1,4 @@
-import { Container, Stack } from "@chakra-ui/react";
+import { Stack } from "@chakra-ui/react";
 import { FullFileBrowser, ChonkyActions } from "@aperturerobotics/chonky";
 import { ChonkyIconFA } from "@aperturerobotics/chonky-icon-fontawesome";
 import { useState } from "react";

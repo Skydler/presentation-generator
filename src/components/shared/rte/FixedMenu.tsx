@@ -166,7 +166,7 @@ function MediaSection({ editor }: { editor: Editor }) {
       allowDrop={false}
       width="unset"
     >
-      <FileUploadTrigger asChild>
+      <FileUploadTrigger>
         <Tooltip content="Insert image">
           <IconButton variant="ghost" size="xs">
             <LuImage />
