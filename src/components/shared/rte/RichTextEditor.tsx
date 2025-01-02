@@ -11,6 +11,8 @@ import Link from "@tiptap/extension-link";
 import { FixedMenu } from "./FixedMenu";
 import { patchTipTapHTML } from "./utils";
 import "./styles.css";
+import { FontSize } from "./extensions/fontSize";
+import TextStyle from "@tiptap/extension-text-style";
 
 type RichTextEditorProps = { value: string; placeholder: string; onChange: (value: string) => void };
 export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorProps) {
@@ -21,6 +23,8 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
     extensions: [
       StarterKit,
       Underline,
+      TextStyle.configure({ mergeNestedSpanStyles: true }),
+      FontSize,
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
@@ -77,7 +81,10 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
         },
       }),
     ],
-    onUpdate: (content) => onChange(patchTipTapHTML(content.editor.getHTML())),
+    onUpdate: (content) => {
+      console.log(patchTipTapHTML(content.editor.getHTML()));
+      onChange(patchTipTapHTML(content.editor.getHTML()));
+    },
     //onUpdate: (content) => console.log(patchTipTapHTML(content.editor.getHTML())),
   });
 

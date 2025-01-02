@@ -1,6 +1,7 @@
 import { Group, Heading, HStack, IconButton, Separator } from "@chakra-ui/react";
 import { Editor } from "@tiptap/react";
 import {
+  LuAlertTriangle,
   LuAlignCenter,
   LuAlignLeft,
   LuAlignRight,
@@ -197,6 +198,13 @@ function HistorySection({ editor }: { editor: Editor }) {
 function HeadingSection({ editor }: { editor: Editor }) {
   return (
     <>
+      <IconButton
+        variant={editor.isActive("textStyle", { fontSize: 40 }) ? "solid" : "ghost"}
+        size="xs"
+        onClick={() => editor.chain().focus().setFontSize(40).run()}
+      >
+        <LuAlertTriangle />
+      </IconButton>
       <MenuRoot>
         <MenuTrigger asChild>
           <IconButton variant="ghost" size="xs">
