@@ -1,10 +1,14 @@
-import { Group, HStack, IconButton, Separator } from "@chakra-ui/react";
+import { Group, Heading, HStack, IconButton, Separator } from "@chakra-ui/react";
 import { Editor } from "@tiptap/react";
 import {
   LuAlignCenter,
   LuAlignLeft,
   LuAlignRight,
   LuBold,
+  LuHeading,
+  LuHeading1,
+  LuHeading2,
+  LuHeading3,
   LuImage,
   LuItalic,
   LuList,
@@ -22,16 +26,12 @@ type FixedMenuProps = { editor: Editor };
 export function FixedMenu({ editor }: FixedMenuProps) {
   return (
     <HStack width="full" borderBottom="1px solid #e4e4e7">
+      <HeadingSection editor={editor} />
       <MarksSection editor={editor} />
-
       <Separator orientation="vertical" height="20px" />
-
       <TextAlignSection editor={editor} />
-
       <MediaSection editor={editor} />
-
       <Separator orientation="vertical" height="20px" />
-
       <HistorySection editor={editor} />
     </HStack>
   );
@@ -190,6 +190,41 @@ function HistorySection({ editor }: { editor: Editor }) {
           <LuRedo />
         </IconButton>
       </Tooltip>
+    </>
+  );
+}
+
+function HeadingSection({ editor }: { editor: Editor }) {
+  return (
+    <>
+      <MenuRoot>
+        <MenuTrigger asChild>
+          <IconButton variant="ghost" size="xs">
+            <LuHeading />
+          </IconButton>
+        </MenuTrigger>
+        <MenuContent>
+          <MenuItem value="h1" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>
+            <LuHeading1 />
+            <Heading size="3xl" fontWeight="bold">
+              Title
+            </Heading>
+          </MenuItem>
+          <MenuItem value="h2" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
+            <LuHeading2 />
+
+            <Heading size="2xl" fontWeight="bold">
+              Subtitle
+            </Heading>
+          </MenuItem>
+          <MenuItem value="h3" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>
+            <LuHeading3 />
+            <Heading size="xl" fontWeight="bold">
+              Heading
+            </Heading>
+          </MenuItem>
+        </MenuContent>
+      </MenuRoot>
     </>
   );
 }

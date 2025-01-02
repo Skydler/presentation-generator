@@ -1,8 +1,13 @@
 .tiptap {
-  padding: 10px;
+  all: revert;
+  padding: 0px 10px;
   height: 200px;
   max-height: 300px;
   overflow-y: scroll;
+}
+
+.tiptap * {
+  all: revert;
 }
 
 .tiptap p.is-editor-empty:first-child::before {
@@ -21,10 +26,4 @@
   &:hover {
     color: #5800cc;
   }
-}
-
-ul,
-ol {
-  list-style: revert;
-  margin-left: 20px;
 }
