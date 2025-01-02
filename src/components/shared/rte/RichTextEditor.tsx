@@ -84,7 +84,7 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
   useEffect(() => {
     if (!editor || !value) return;
 
-    // Preserving position when setting content in a controlled manner with ReactHookForm
+    // Preserving position when setting content
     const { from, to } = editor.state.selection;
     editor.commands.setContent(value, false, { preserveWhitespace: "full" });
     editor.commands.setTextSelection({ from, to });

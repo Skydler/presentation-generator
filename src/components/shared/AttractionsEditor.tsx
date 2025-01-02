@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, Fieldset, Input } from "@chakra-ui/react";
 import { Attraction } from "../../pages/PdfGenerator";
 import { Field } from "../ui/field";
@@ -13,7 +14,12 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
     formState: { errors },
     control,
   } = useFormContext<Attraction>();
-  const onSubmit: SubmitHandler<Attraction> = (data) => updatePage(data);
+  // We need to store the description in a separate state so RichTextEditor works as expected
+  // I found an issue with the undo and redo buttons not working as expected
+  // The issue I encountered has something to do with the rerendering of the component probabbly but
+  // I couldn't find the root cause
+  const [description, setDescription] = useState("");
+  const onSubmit: SubmitHandler<Attraction> = (data) => updatePage({ ...data, description: description });
 
   return (
     <Box>
@@ -28,8 +34,8 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
               <Controller
                 name="description"
                 control={control}
-                render={({ field: { value, onChange } }) => (
-                  <RichTextEditor onChange={onChange} value={value} placeholder="Write something..." />
+                render={({ field: { value } }) => (
+                  <RichTextEditor onChange={setDescription} value={value} placeholder="Write something..." />
                 )}
               />
             </Field>
