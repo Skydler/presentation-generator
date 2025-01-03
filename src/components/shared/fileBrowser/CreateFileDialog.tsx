@@ -40,7 +40,7 @@ export function CreateFileDialog({ open, setOpen, createFile }: CreateFileDialog
   };
 
   return (
-    <DialogRoot lazyMount open={open} onOpenChange={(e) => setOpen(e.open)}>
+    <DialogRoot lazyMount open={open} onOpenChange={(e) => setOpen(e.open)} size="lg">
       <DialogContent>
         <form onSubmit={handleSubmit(newFileSubmit)}>
           <DialogHeader>

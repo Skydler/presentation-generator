@@ -28,7 +28,7 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
   }, [watch]);
 
   return (
-    <Box>
+    <Box width="full">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Fieldset.Root>
           <Fieldset.Legend fontSize="lg">Edit attraction</Fieldset.Legend>

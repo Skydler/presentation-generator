@@ -4,7 +4,7 @@ import { AttractionEditor } from "../components/shared/AttractionsEditor";
 import { PdfDocumentViewer } from "../components/shared/pdf/PdfDocumentViewer";
 import { PageController } from "../components/shared/PageController";
 import { PluralisFileBrowser } from "../components/shared/fileBrowser/PluralisFileBrowser";
-import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { ContentPage } from "../components/shared/pdf/PdfDocument";
 
 export type Attraction = {

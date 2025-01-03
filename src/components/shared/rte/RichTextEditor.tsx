@@ -98,12 +98,12 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
   if (!editor) return;
 
   return (
-    <VStack gap={0} border="1px solid #e4e4e7" borderRadius="sm">
+    <VStack gap={0} border="1px solid #e4e4e7" borderRadius="sm" width="full">
       <FixedMenu editor={editor} />
       <EditorContent
         editor={editor}
         style={{
-          width: "700px",
+          width: "100%",
         }}
       />
     </VStack>
