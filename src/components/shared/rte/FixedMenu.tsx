@@ -1,7 +1,6 @@
 import { Group, Heading, HStack, IconButton, Separator } from "@chakra-ui/react";
 import { Editor } from "@tiptap/react";
 import {
-  LuAlertTriangle,
   LuAlignCenter,
   LuAlignLeft,
   LuAlignRight,
@@ -22,13 +21,14 @@ import {
 import { FileUploadRoot, FileUploadTrigger } from "../../ui/file-button";
 import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from "../../ui/menu";
 import { Tooltip } from "../../ui/tooltip";
+import { NumberInputField, NumberInputRoot } from "../../ui/number-input";
 
 type FixedMenuProps = { editor: Editor };
 export function FixedMenu({ editor }: FixedMenuProps) {
   return (
     <HStack width="full" borderBottom="1px solid #e4e4e7">
-      <HeadingSection editor={editor} />
       <MarksSection editor={editor} />
+      <FontStyleSection editor={editor} />
       <Separator orientation="vertical" height="20px" />
       <TextAlignSection editor={editor} />
       <MediaSection editor={editor} />
@@ -195,16 +195,9 @@ function HistorySection({ editor }: { editor: Editor }) {
   );
 }
 
-function HeadingSection({ editor }: { editor: Editor }) {
+function FontStyleSection({ editor }: { editor: Editor }) {
   return (
     <>
-      <IconButton
-        variant={editor.isActive("textStyle", { fontSize: 40 }) ? "solid" : "ghost"}
-        size="xs"
-        onClick={() => editor.chain().focus().setFontSize(40).run()}
-      >
-        <LuAlertTriangle />
-      </IconButton>
       <MenuRoot>
         <MenuTrigger asChild>
           <IconButton variant="ghost" size="xs">
@@ -233,6 +226,18 @@ function HeadingSection({ editor }: { editor: Editor }) {
           </MenuItem>
         </MenuContent>
       </MenuRoot>
+      <NumberInputRoot
+        size="sm"
+        width="60px"
+        defaultValue="16"
+        min={1}
+        max={100}
+        allowMouseWheel
+        allowOverflow={false}
+        onValueChange={(details) => editor.chain().setFontSize(details.valueAsNumber).run()}
+      >
+        <NumberInputField />
+      </NumberInputRoot>
     </>
   );
 }
