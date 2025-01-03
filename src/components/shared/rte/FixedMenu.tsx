@@ -26,15 +26,28 @@ import { NumberInputField, NumberInputRoot } from "../../ui/number-input";
 type FixedMenuProps = { editor: Editor };
 export function FixedMenu({ editor }: FixedMenuProps) {
   return (
-    <HStack width="full" borderBottom="1px solid #e4e4e7">
-      <MarksSection editor={editor} />
-      <FontStyleSection editor={editor} />
-      <Separator orientation="vertical" height="20px" />
-      <TextAlignSection editor={editor} />
-      <MediaSection editor={editor} />
-      <Separator orientation="vertical" height="20px" />
-      <HistorySection editor={editor} />
-    </HStack>
+    // NOTE:
+    // FileUploadRoot needs to be above the HStack to work properly for some reason. I couldn't find the root cause
+    <FileUploadRoot
+      accept={["image/png", "image/jpeg", "image/webp"]}
+      onFileAccept={(details) => {
+        // Should always be a single file
+        const file = details.files[0];
+        const url = URL.createObjectURL(file);
+        editor.chain().focus().setImage({ src: url }).run();
+      }}
+      maxFileSize={5 * 1024 * 1024} // 5MB
+    >
+      <HStack width="full" borderBottom="1px solid #e4e4e7">
+        <MarksSection editor={editor} />
+        <FontStyleSection editor={editor} />
+        <Separator orientation="vertical" height="20px" />
+        <TextAlignSection editor={editor} />
+        <MediaSection />
+        <Separator orientation="vertical" height="20px" />
+        <HistorySection editor={editor} />
+      </HStack>
+    </FileUploadRoot>
   );
 }
 
@@ -153,27 +166,13 @@ function TextAlignSection({ editor }: { editor: Editor }) {
   );
 }
 
-function MediaSection({ editor }: { editor: Editor }) {
+function MediaSection() {
   return (
-    <FileUploadRoot
-      accept={"image/png, image/jpeg, image/webp"}
-      onFileAccept={(details) => {
-        // Should always be a single file
-        const file = details.files[0];
-        const url = URL.createObjectURL(file);
-        editor.chain().focus().setImage({ src: url }).run();
-      }}
-      allowDrop={false}
-      width="unset"
-    >
-      <FileUploadTrigger>
-        <Tooltip content="Insert image">
-          <IconButton variant="ghost" size="xs">
-            <LuImage />
-          </IconButton>
-        </Tooltip>
-      </FileUploadTrigger>
-    </FileUploadRoot>
+    <FileUploadTrigger asChild>
+      <IconButton variant="ghost" size="xs">
+        <LuImage />
+      </IconButton>
+    </FileUploadTrigger>
   );
 }
 
