@@ -1,10 +1,10 @@
 import { Container, Stack, Separator, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AttractionEditor } from "../components/shared/AttractionsEditor";
 import { PdfDocumentViewer } from "../components/shared/pdf/PdfDocumentViewer";
 import { PageController } from "../components/shared/PageController";
 import { PluralisFileBrowser } from "../components/shared/fileBrowser/PluralisFileBrowser";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
 import { ContentPage } from "../components/shared/pdf/PdfDocument";
 
 export type Attraction = {
@@ -15,17 +15,21 @@ export type Attraction = {
 const emptyProduct: ContentPage = {
   attraction: {
     title: "",
-    description: "",
+    description: "<p></p>",
   },
 };
 
 function PdfGenerator() {
   const methods = useForm<Attraction>();
   const [products, setProducts] = useState<ContentPage[]>([emptyProduct]);
-  const [currentProd, setCurrentProd] = useState(1);
-  const currentProdIndex = currentProd - 1;
-  if (currentProdIndex < 0) {
+  const [currentProd, setCurrentProd] = useState(0);
+  if (currentProd < 0) {
     throw new Error("Invalid current product index");
+  }
+
+  function updateFormAttraction(data: Attraction) {
+    methods.setValue("title", data.title);
+    methods.setValue("description", data.description);
   }
 
   return (
@@ -35,28 +39,35 @@ function PdfGenerator() {
           <VStack gap={10} flex={1}>
             <PluralisFileBrowser />
             <PageController
-              pages={products}
+              products={products}
               currentProdIndex={currentProd}
-              setCurrentProd={setCurrentProd}
               handleRemovePage={() => {
                 if (products.length > 1) {
-                  const newProducts = products.filter((_, index) => index !== currentProdIndex);
+                  const newProducts = products.filter((_, index) => index !== currentProd);
+                  const newIndex = Math.min(currentProd, newProducts.length - 1);
                   setProducts(newProducts);
-                  setCurrentProd(currentProd - 1);
+                  setCurrentProd(newIndex);
+                  updateFormAttraction(newProducts[newIndex].attraction);
                 }
               }}
               handleNewPage={() => {
-                const newProducts = [...products, emptyProduct];
+                const newProducts = [...products];
+                const newIndex = currentProd + 1;
+                newProducts.splice(newIndex, 0, emptyProduct);
+
                 setProducts(newProducts);
-                setCurrentProd(currentProd + 1);
-                methods.setValue("title", "");
-                methods.setValue("description", "");
+                setCurrentProd(newIndex);
+                updateFormAttraction(emptyProduct.attraction);
+              }}
+              handlePageChange={(index: number) => {
+                setCurrentProd(index);
+                updateFormAttraction(products[index].attraction);
               }}
             >
               <AttractionEditor
                 updatePage={(data: Attraction) => {
                   const newProducts = [...products];
-                  newProducts[currentProdIndex] = { attraction: data };
+                  newProducts[currentProd] = { attraction: data };
                   setProducts(newProducts);
                 }}
               />

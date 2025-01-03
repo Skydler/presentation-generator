@@ -82,10 +82,8 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
       }),
     ],
     onUpdate: (content) => {
-      console.log(patchTipTapHTML(content.editor.getHTML()));
       onChange(patchTipTapHTML(content.editor.getHTML()));
     },
-    //onUpdate: (content) => console.log(patchTipTapHTML(content.editor.getHTML())),
   });
 
   useEffect(() => {

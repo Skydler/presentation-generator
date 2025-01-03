@@ -3,40 +3,33 @@ import { PaginationNextTrigger, PaginationPageText, PaginationPrevTrigger, Pagin
 import { ReactNode } from "react";
 import { Button } from "../ui/button";
 import { ContentPage } from "./pdf/PdfDocument";
-import { useFormContext } from "react-hook-form";
-import { Attraction } from "../../pages/PdfGenerator";
 
 type PageControllerProps = {
-  pages: ContentPage[];
+  products: ContentPage[];
   children: ReactNode;
   currentProdIndex: number;
-  setCurrentProd: (index: number) => void;
   handleRemovePage: () => void;
   handleNewPage: () => void;
+  handlePageChange: (index: number) => void;
 };
 export function PageController({
-  pages,
+  products,
   children,
   currentProdIndex,
-  setCurrentProd,
   handleNewPage,
   handleRemovePage,
+  handlePageChange,
 }: PageControllerProps) {
-  const { setValue } = useFormContext<Attraction>();
-  const canRemovePage = pages.length > 1;
+  const canRemovePage = products.length > 1;
 
   return (
-    <VStack gap={5} width="full">
+    <VStack gap={5}>
       <PaginationRoot
-        count={pages.length}
-        page={currentProdIndex}
+        count={products.length}
+        page={currentProdIndex + 1} //Because the page starts at 1
         pageSize={1}
         defaultPage={1}
-        onPageChange={(detail) => {
-          setCurrentProd(detail.page);
-          setValue("title", pages[detail.page - 1].attraction.title);
-          setValue("description", pages[detail.page - 1].attraction.description);
-        }}
+        onPageChange={(detail) => handlePageChange(detail.page - 1)}
       >
         <HStack gap={4}>
           <PaginationPrevTrigger />

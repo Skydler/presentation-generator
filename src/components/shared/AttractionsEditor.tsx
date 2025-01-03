@@ -46,7 +46,7 @@ export function AttractionEditor({ updatePage }: AttractionsListProps) {
               />
             </Field>
           </Fieldset.Content>
-          <Button type="submit">Update</Button>
+          <Button type="submit">Save</Button>
         </Fieldset.Root>
       </form>
     </Box>
