@@ -1,5 +1,5 @@
 import { Container, Stack, Separator, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AttractionEditor } from "../components/shared/AttractionsEditor";
 import { PdfDocumentViewer } from "../components/shared/pdf/PdfDocumentViewer";
 import { PageController } from "../components/shared/PageController";

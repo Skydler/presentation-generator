@@ -2,7 +2,7 @@ import "@tiptap/extension-text-style";
 
 import { Extension } from "@tiptap/core";
 
-export type FontSizeOptions = {
+type FontSizeOptions = {
   /**
    * The types where the fontSize can be applied
    * @default ['textStyle']

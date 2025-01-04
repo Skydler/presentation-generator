@@ -18,36 +18,23 @@ import {
   LuUnderline,
   LuUndo,
 } from "react-icons/lu";
-import { FileUploadRoot, FileUploadTrigger } from "../../ui/file-button";
 import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from "../../ui/menu";
 import { Tooltip } from "../../ui/tooltip";
 import { NumberInputField, NumberInputRoot } from "../../ui/number-input";
+import Compressor from "compressorjs";
 
 type FixedMenuProps = { editor: Editor };
 export function FixedMenu({ editor }: FixedMenuProps) {
   return (
-    // NOTE:
-    // FileUploadRoot needs to be above the HStack to work properly for some reason. I couldn't find the root cause
-    <FileUploadRoot
-      accept={["image/png", "image/jpeg", "image/webp"]}
-      onFileAccept={(details) => {
-        // Should always be a single file
-        const file = details.files[0];
-        const url = URL.createObjectURL(file);
-        editor.chain().focus().setImage({ src: url }).run();
-      }}
-      maxFileSize={5 * 1024 * 1024} // 5MB
-    >
-      <HStack width="full" borderBottom="1px solid #e4e4e7">
-        <MarksSection editor={editor} />
-        <FontStyleSection editor={editor} />
-        <Separator orientation="vertical" height="20px" />
-        <TextAlignSection editor={editor} />
-        <MediaSection />
-        <Separator orientation="vertical" height="20px" />
-        <HistorySection editor={editor} />
-      </HStack>
-    </FileUploadRoot>
+    <HStack width="full" borderBottom="1px solid #e4e4e7">
+      <HistorySection editor={editor} />
+      <Separator orientation="vertical" height="20px" />
+      <MarksSection editor={editor} />
+      <FontStyleSection editor={editor} />
+      <Separator orientation="vertical" height="20px" />
+      <TextAlignSection editor={editor} />
+      <MediaSection editor={editor} />
+    </HStack>
   );
 }
 
@@ -166,13 +153,36 @@ function TextAlignSection({ editor }: { editor: Editor }) {
   );
 }
 
-function MediaSection() {
+function MediaSection({ editor }: { editor: Editor }) {
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    new Compressor(file, {
+      quality: 0.6,
+      success(result) {
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          if (typeof reader.result !== "string") return;
+          editor.chain().focus().setImage({ src: reader.result }).run();
+        };
+
+        reader.readAsDataURL(result);
+      },
+      error(err) {
+        console.error(err.message);
+      },
+    });
+  };
+
   return (
-    <FileUploadTrigger asChild>
-      <IconButton variant="ghost" size="xs">
+    <IconButton variant="ghost" size="xs" as="label">
+      <>
+        <input accept="image/*" type="file" style={{ display: "none" }} onChange={handleImageUpload} />
         <LuImage />
-      </IconButton>
-    </FileUploadTrigger>
+      </>
+    </IconButton>
   );
 }
 
