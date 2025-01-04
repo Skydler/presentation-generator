@@ -119,7 +119,7 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
   if (!editor) return;
 
   return (
-    <VStack gap={0} border="1px solid #e4e4e7" borderRadius="sm" width="full">
+    <VStack gap={0} border="1px solid #e4e4e7" borderRadius="sm" width="full" maxWidth="700px">
       <FixedMenu editor={editor} />
       <EditorContent
         editor={editor}
