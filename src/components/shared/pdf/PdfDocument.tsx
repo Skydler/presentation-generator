@@ -27,8 +27,10 @@ export function PdfDocument({ products }: PdfDocumentProps) {
         return (
           <Page key={`product-${index}`} orientation="landscape" style={styles.page}>
             <View style={styles.content} data-page-number={index}>
+              <View fixed style={{ height: 50, width: "100%" }}></View>
               <Text style={styles.title}>{page.attraction.title}</Text>
               <Html style={styles.description}>{page.attraction.description}</Html>
+              <View fixed style={{ height: 80, width: "100%" }}></View>
               <Image src={LogoPluralis} style={styles.logo} fixed />
             </View>
             <Image src={BackgroundImage} style={styles.background} fixed />
@@ -72,11 +74,12 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   content: {
-    padding: 50,
+    paddingRight: 50,
+    paddingLeft: 50,
   },
   title: {
     fontSize: 36,
-    marginBottom: 30,
+    marginBottom: 20,
     textAlign: "center",
   },
   description: {},
