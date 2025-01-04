@@ -13,6 +13,7 @@ import { patchTipTapHTML } from "./utils";
 import "./styles.css";
 import { FontSize } from "./extensions/fontSize";
 import TextStyle from "@tiptap/extension-text-style";
+import Compressor from "compressorjs";
 
 type RichTextEditorProps = { value: string; placeholder: string; onChange: (value: string) => void };
 export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorProps) {
@@ -43,40 +44,60 @@ export function RichTextEditor({ value, placeholder, onChange }: RichTextEditorP
         allowedMimeTypes: ["image/png", "image/jpeg", "image/webp"],
         onDrop: (currentEditor, files, pos) => {
           files.forEach((file) => {
-            const fileReader = new FileReader();
+            new Compressor(file, {
+              quality: 0.6,
+              success(result) {
+                const reader = new FileReader();
 
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-              currentEditor
-                .chain()
-                .insertContentAt(pos, {
-                  type: "image",
-                  attrs: {
-                    src: fileReader.result,
-                  },
-                })
-                .focus()
-                .run();
-            };
+                reader.onloadend = () => {
+                  if (typeof reader.result !== "string") return;
+                  currentEditor
+                    .chain()
+                    .insertContentAt(pos, {
+                      type: "image",
+                      attrs: {
+                        src: reader.result,
+                      },
+                    })
+                    .focus()
+                    .run();
+                };
+
+                reader.readAsDataURL(result);
+              },
+              error(err) {
+                console.error(err.message);
+              },
+            });
           });
         },
         onPaste: (currentEditor, files) => {
           files.forEach((file) => {
-            const fileReader = new FileReader();
+            new Compressor(file, {
+              quality: 0.6,
+              success(result) {
+                const reader = new FileReader();
 
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-              currentEditor
-                .chain()
-                .insertContentAt(currentEditor.state.selection.anchor, {
-                  type: "image",
-                  attrs: {
-                    src: fileReader.result,
-                  },
-                })
-                .focus()
-                .run();
-            };
+                reader.onloadend = () => {
+                  if (typeof reader.result !== "string") return;
+                  currentEditor
+                    .chain()
+                    .insertContentAt(currentEditor.state.selection.anchor, {
+                      type: "image",
+                      attrs: {
+                        src: reader.result,
+                      },
+                    })
+                    .focus()
+                    .run();
+                };
+
+                reader.readAsDataURL(result);
+              },
+              error(err) {
+                console.error(err.message);
+              },
+            });
           });
         },
       }),
